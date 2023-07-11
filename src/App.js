@@ -3,6 +3,7 @@ import { Header } from "./components/Header";
 import { Main } from "./page/Main";
 import { Bookmark } from "./page/Bookmark";
 import { Products } from "./page/Products";
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/products/list" element={<Products />}></Route>
         <Route path="/bookmark" element={<Bookmark />}></Route>
       </Routes>
+      <Footer />
     </div>
   );
 }
