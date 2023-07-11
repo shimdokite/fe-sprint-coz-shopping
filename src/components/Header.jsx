@@ -13,7 +13,7 @@ export const Header = () => {
             src="/images/logo.png"
             alt="COZ shopping logo"
           />
-          <h1>COZ Shopping</h1>
+          <HeaderLogo>COZ Shopping</HeaderLogo>
         </GoToMain>
       </HeaderLeftPart>
       <DropdownMenu />
@@ -27,9 +27,20 @@ const HeaderContainer = styled.div`
   align-items: center;
   position: sticky;
   border: 1px solid white;
-  box-shadow: 0px 7px 6px -4px #c4c4c4;
+  box-shadow: 1px 0px 15px 5px #c4c4c4;
+  max-width: 100%;
   height: 70px;
   padding: 0 76px;
+`;
+
+const HeaderLogo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 28px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
 `;
 
 const HeaderLeftPart = styled.div`
@@ -45,16 +56,10 @@ const GoToMain = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
 
   > .logo {
     width: 50px;
     height: 50px;
-  }
-
-  > h1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 `;
