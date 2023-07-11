@@ -10,12 +10,16 @@ const DropdownMenu = () => {
     <Wrapper>
       <DropdownContainer>
         <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-          <img src="/images/hambuger.png" alt="hambuger button" />
+          <img
+            src="/images/hambuger.png"
+            alt="hambuger button"
+            className="hambuger"
+          />
         </DropdownButton>
         <Menu isDropped={myPageIsOpen}>
           <Ul>
             <Li>
-              <LinkWrapper>ooo님, 안녕하세요!</LinkWrapper>
+              <div>ooo님, 안녕하세요!</div>
             </Li>
             <Li>
               <LinkWrapper to="/products/list">
@@ -56,22 +60,29 @@ const DropdownContainer = styled.div`
   /* text-align: center; */
 `;
 
-const DropdownButton = styled.div``;
+const DropdownButton = styled.div`
+  cursor: pointer;
+
+  > .hambuger {
+    width: 30px;
+    height: 20px;
+  }
+`;
 
 const Menu = styled.div`
   background: white;
   position: absolute;
   top: 40px;
   left: 50%;
-  width: 150px;
-  padding: 10px;
+  width: 200px;
+  /* padding: 10px; */
 
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   opacity: 0;
   visibility: hidden;
 
-  transform: translate(-50%, -20px);
+  transform: translate(-70%, -20px);
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
   z-index: 9;
 
@@ -81,7 +92,7 @@ const Menu = styled.div`
     width: 0;
     position: absolute;
     top: -3px;
-    left: 50%;
+    left: 70%;
     transform: translate(-50%, -50%);
     border: 12px solid transparent;
     border-top-width: 0;
@@ -93,18 +104,18 @@ const Menu = styled.div`
     css`
       opacity: 1;
       visibility: visible;
-      transform: translate(-50%, 0);
-      left: 50%;
+      transform: translate(-70%, 0);
+      left: ;
     `};
 `;
 
 const Ul = styled.ul`
   & > li {
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
   }
 
   & > li:first-of-type {
-    margin-top: 10px;
+    /* margin-top: 10px; */
   }
 
   list-style-type: none;
@@ -113,23 +124,42 @@ const Ul = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const Li = styled.li`
-  cursor: pointer;
-  margin: 0 5px 0 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #c4c4c4;
+
+  &:first-child {
+    display: flex;
+    justify-content: center;
+
+    padding: 10px 0;
+  }
+  &:last-child {
+    border: none;
+  }
 `;
 
 const LinkWrapper = styled(Link)`
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 7px;
+  padding: 10px 0 10px 30px;
 
   font-size: 16px;
   text-decoration: none;
   color: black;
 
+  width: 100%;
+
   > .icon {
     margin: 0 0 3px 0;
+    width: 20px;
+    height: 20px;
   }
 `;

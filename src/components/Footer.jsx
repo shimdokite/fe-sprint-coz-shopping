@@ -6,7 +6,7 @@ export const Footer = () => {
     <FooterContainter>
       <FooterUp>
         <div className="privacy">개인정보 처리방침</div>
-        <div className="terms_use">이용약관</div>
+        <div className="terms_use">이용 약관</div>
       </FooterUp>
       <FooterDown>All rights reserved @ Codestates</FooterDown>
     </FooterContainter>

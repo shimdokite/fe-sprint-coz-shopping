@@ -4,6 +4,7 @@ import { Main } from "./page/Main";
 import { Bookmark } from "./page/Bookmark";
 import { Products } from "./page/Products";
 import { Footer } from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (

@@ -1,5 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Josefin+Sans:wght@300&family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap");
+
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  font-family: "Inter", sans-serif;
 }
