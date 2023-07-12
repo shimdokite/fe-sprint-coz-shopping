@@ -2,6 +2,14 @@ export const GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS";
 export const GET_PRODUCTS_FAILURE = "GET_PRODUCTS_FAILURE";
 export const ADD_TO_BOOKMARK = "ADD_TO_BOOKMARK";
 export const DELETE_BOOKMARK = "DELETE_BOOKMARK";
+export const GET_PRODUCTS_DATA = "GET_PRODUCTS_DATA";
+
+export const getProductsData = (products) => {
+  return {
+    type: GET_PRODUCTS_DATA,
+    payload: products,
+  };
+};
 
 export const getProductsSuccess = async (products) => {
   return {

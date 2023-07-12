@@ -1,16 +1,13 @@
-// store.js 파일
-import { applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
-import { persistReducer, persistStore } from "redux-persist";
-import { configureStore } from "@reduxjs/toolkit";
+import { createStore, applyMiddleware, compose } from "redux";
+import persistReducer from "../reducers";
+import thunk from "redux-thunk"; // 비동기...
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+const composeEnhancers = devTools || compose;
 
-export const store = configureStore({
-  reducer: persistReducer,
-  middleware: [thunk],
-});
+const store = createStore(
+  persistReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
-export const persistor = persistStore(store);
-
-export default { store };
+export default store;

@@ -9,6 +9,6 @@ const persistConfig = {
   whitelist: ["productsReducer"],
 };
 
-const rootReducer = combineReducers({ products: productsReducer });
+const rootReducer = combineReducers({ productsReducer });
 
 export default persistReducer(persistConfig, rootReducer);

@@ -3,11 +3,19 @@ import {
   DELETE_BOOKMARK,
   GET_PRODUCTS_SUCCESS,
   GET_PRODUCTS_FAILURE,
+  GET_PRODUCTS_DATA,
 } from "../actions";
 import { initialState } from "./initialState";
 
 export const productsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_PRODUCTS_DATA:
+      // console.log(action.payload);
+      return {
+        ...state,
+        products: action.payload,
+      };
+
     case GET_PRODUCTS_SUCCESS:
       return {
         ...state,
