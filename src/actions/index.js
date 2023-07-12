@@ -1,11 +1,21 @@
+import axios from "axios";
+
 export const GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS";
+export const GET_PRODUCTS_FAILURE = "GET_PRODUCTS_FAILURE";
 export const ADD_TO_BOOKMARK = "ADD_TO_BOOKMARK";
 export const DELETE_BOOKMARK = "DELETE_BOOKMARK";
 
-export const getProductsSuccess = (data) => {
+export const getProductsSuccess = async (products) => {
   return {
     type: GET_PRODUCTS_SUCCESS,
-    payload: data,
+    payload: products,
+  };
+};
+
+export const getProductsFailure = async (error) => {
+  return {
+    type: GET_PRODUCTS_FAILURE,
+    payload: error,
   };
 };
 
