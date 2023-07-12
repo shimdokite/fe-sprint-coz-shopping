@@ -20,14 +20,37 @@ export const productsReducer = (state = initialState, action) => {
       return { ...state, error: action.payload };
 
     case ADD_TO_BOOKMARK:
+      const updatedProducts = state.products.map((product) => {
+        if (product.id === action.payload.id) {
+          return {
+            ...product,
+            isBookmarked: !product.isBookmarked,
+          };
+        }
+        return product;
+      });
+
+      const bookmarkedProducts = [
+        ...state.bookmarked,
+        updatedProducts.find(({ id }) => id === action.payload.id),
+      ];
+
       return {
-        /* id가 같은 상품은 북마크하기 */
+        ...state,
+        products: updatedProducts,
+        bookmarked: bookmarkedProducts,
       };
 
-    case DELETE_BOOKMARK:
+    case DELETE_BOOKMARK: {
+      const updatedBookmarked = state.bookmarked.filter(
+        ({ id }) => id !== action.payload.id
+      );
+
       return {
-        /* id가 같은 상품은 북마크 해제하기 */
+        ...state,
+        bookmarked: updatedBookmarked,
       };
+    }
 
     default:
       return state;
