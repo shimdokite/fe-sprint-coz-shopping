@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export const GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS";
 export const GET_PRODUCTS_FAILURE = "GET_PRODUCTS_FAILURE";
 export const ADD_TO_BOOKMARK = "ADD_TO_BOOKMARK";
