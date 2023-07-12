@@ -10,7 +10,6 @@ export const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCTS_SUCCESS:
       return {
-        /* axios 요청으로 가져온 상품 보여주기*/
         ...state,
         products: action.payload,
         bookmark: [],
@@ -24,31 +23,31 @@ export const productsReducer = (state = initialState, action) => {
         if (product.id === action.payload.id) {
           return {
             ...product,
-            isBookmarked: !product.isBookmarked,
+            isBookmark: !product.isBookmark,
           };
         }
         return product;
       });
 
       const bookmarkedProducts = [
-        ...state.bookmarked,
+        ...state.bookmark,
         updatedProducts.find(({ id }) => id === action.payload.id),
       ];
 
       return {
         ...state,
         products: updatedProducts,
-        bookmarked: bookmarkedProducts,
+        bookmark: bookmarkedProducts,
       };
 
     case DELETE_BOOKMARK: {
-      const updatedBookmarked = state.bookmarked.filter(
+      const updatedBookmarked = state.bookmark.filter(
         ({ id }) => id !== action.payload.id
       );
 
       return {
         ...state,
-        bookmarked: updatedBookmarked,
+        bookmark: updatedBookmarked,
       };
     }
 

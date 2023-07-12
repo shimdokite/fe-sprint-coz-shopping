@@ -23,14 +23,6 @@ export const productsRequest = () => async (dispatch) => {
 
     dispatch(getProductsSuccess(bookmark));
   } catch (error) {
-    dispatch(getProductsFailure(error));
+    dispatch(getProductsFailure(error.message));
   }
 };
-
-// export const fetchProducts = () => {
-//   //middleware를 action에 첨부할수도 있음, function 앞에 return은 arrowfunction이므로 생략가능
-//   return async function (dispatch, getState) {
-//     const response = await fakestoreapi.get("/products");
-//     dispatch({ type: ActionTypes.FETCH_PRODUCTS, payload: response.data });
-//   };
-// };
