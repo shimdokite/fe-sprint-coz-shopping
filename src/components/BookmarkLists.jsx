@@ -1,21 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import iconOff from "../assets/iconOff.png";
+import iconOn from "../assets/iconOn.png";
 
-export const BookmarkLists = ({ item }) => {
-  // console.log(item);
+export const BookmarkLists = ({ bookmark }) => {
+  const [mark, setMark] = useState([]);
+
+  useEffect(() => {
+    const uniqueMark = [];
+    const bookmarkCopy = [...bookmark];
+
+    while (uniqueMark.length < 4 && bookmarkCopy.length > 0) {
+      const randomIndex = Math.floor(Math.random() * bookmarkCopy.length);
+      const randomProduct = bookmarkCopy.splice(randomIndex, 1)[0];
+      uniqueMark.push(randomProduct);
+    }
+
+    setMark(uniqueMark);
+  }, [bookmark]);
+
+  // console.log(bookmark);
+  // console.log(mark);
   return (
     <ItemListsMain>
       <MainTitle>
         <div className="bookmark_list">북마크 리스트</div>
       </MainTitle>
       <ItemContainer>
-        {item.map((product) => (
-          <Items>
-            {product.type === "Brand" && (
+        {mark.map((product, idx) => (
+          <Items key={`${idx} + ${product}`}>
+            {product?.type === "Brand" && (
               <>
                 <ItemImg>
-                  <BookmarkOff />
+                  <BookmarkOn />
                   <img className="product_img" src={product.brand_image_url} />
                 </ItemImg>
                 <ItemDetail>
@@ -29,18 +45,19 @@ export const BookmarkLists = ({ item }) => {
                 </ItemDetail>
               </>
             )}
-            {product.type === "Category" && (
+            {product?.type === "Category" && (
               <>
                 <ItemImg>
+                  <BookmarkOn />
                   <img className="product_img" src={product.image_url} />
                 </ItemImg>
                 <ItemTitle># {product.title}</ItemTitle>
               </>
             )}
-            {product.type === "Product" && (
+            {product?.type === "Product" && (
               <>
                 <ItemImg>
-                  <BookmarkOff />
+                  <BookmarkOn />
                   <img className="product_img" src={product.image_url} />
                 </ItemImg>
                 <ItemDetail>
@@ -54,10 +71,10 @@ export const BookmarkLists = ({ item }) => {
                 </ItemDetail>
               </>
             )}
-            {product.type === "Exhibition" && (
+            {product?.type === "Exhibition" && (
               <>
                 <ItemImg>
-                  <BookmarkOff />
+                  <BookmarkOn />
                   <img className="product_img" src={product.image_url} />
                 </ItemImg>
                 <ItemTitle>{product.title}</ItemTitle>
@@ -83,7 +100,7 @@ const MainTitle = styled.div`
   padding: 0 76px;
   margin: 25px 0 10px 0;
 
-  > .item_list {
+  > .bookmark_list {
     font-weight: 600;
     font-size: 24px;
   }
@@ -98,8 +115,8 @@ const ItemContainer = styled.div`
 
 const Items = styled.section``;
 
-const BookmarkOff = styled.img.attrs({
-  src: `${iconOff}`,
+const BookmarkOn = styled.img.attrs({
+  src: `${iconOn}`,
 })`
   cursor: pointer;
 

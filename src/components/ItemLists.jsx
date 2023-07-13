@@ -1,21 +1,28 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import iconOff from "../assets/iconOff.png";
+import { useDispatch } from "react-redux";
+import { addToBookmark } from "../actions";
 
 export const ItemLists = ({ item }) => {
-  console.log(item);
+  const dispatch = useDispatch();
+
+  const handleBookmark = (id) => {
+    dispatch(addToBookmark(id));
+  };
+
   return (
     <ItemListsMain>
       <MainTitle>
         <div className="item_list">상품 리스트</div>
       </MainTitle>
       <ItemContainer>
-        {item.map((product) => (
-          <Items>
+        {item.map((product, idx) => (
+          <Items key={`${idx} + ${product}`}>
             {product.type === "Brand" && (
               <>
                 <ItemImg>
-                  <BookmarkOff />
+                  <BookmarkOff onClick={() => handleBookmark(product.id)} />
                   <img className="product_img" src={product.brand_image_url} />
                 </ItemImg>
                 <ItemDetail>
@@ -32,6 +39,7 @@ export const ItemLists = ({ item }) => {
             {product.type === "Category" && (
               <>
                 <ItemImg>
+                  <BookmarkOff onClick={() => handleBookmark(product.id)} />
                   <img className="product_img" src={product.image_url} />
                 </ItemImg>
                 <ItemTitle># {product.title}</ItemTitle>
@@ -40,7 +48,7 @@ export const ItemLists = ({ item }) => {
             {product.type === "Product" && (
               <>
                 <ItemImg>
-                  <BookmarkOff />
+                  <BookmarkOff onClick={() => handleBookmark(product.id)} />
                   <img className="product_img" src={product.image_url} />
                 </ItemImg>
                 <ItemDetail>
@@ -57,7 +65,7 @@ export const ItemLists = ({ item }) => {
             {product.type === "Exhibition" && (
               <>
                 <ItemImg>
-                  <BookmarkOff />
+                  <BookmarkOff onClick={() => handleBookmark(product.id)} />
                   <img className="product_img" src={product.image_url} />
                 </ItemImg>
                 <ItemTitle>{product.title}</ItemTitle>

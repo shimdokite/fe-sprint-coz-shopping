@@ -1,8 +1,6 @@
 import {
   ADD_TO_BOOKMARK,
   DELETE_BOOKMARK,
-  GET_PRODUCTS_SUCCESS,
-  GET_PRODUCTS_FAILURE,
   GET_PRODUCTS_DATA,
 } from "../actions";
 import { initialState } from "./initialState";
@@ -16,19 +14,9 @@ export const productsReducer = (state = initialState, action) => {
         products: action.payload,
       };
 
-    case GET_PRODUCTS_SUCCESS:
-      return {
-        ...state,
-        products: action.payload,
-        bookmark: [],
-      };
-
-    case GET_PRODUCTS_FAILURE:
-      return { ...state, error: action.payload };
-
     case ADD_TO_BOOKMARK:
       const updatedProducts = state.products.map((product) => {
-        if (product.id === action.payload.id) {
+        if (product.id === action.payload) {
           return {
             ...product,
             isBookmark: !product.isBookmark,
@@ -37,14 +25,20 @@ export const productsReducer = (state = initialState, action) => {
         return product;
       });
 
-      const bookmarkedProducts = [
-        ...state.bookmark,
-        updatedProducts.find(({ id }) => id === action.payload.id),
-      ];
+      const bookmarkItem = updatedProducts.filter(
+        (cur) => cur.isBookmark === true
+      );
+
+      let bookmarkedProducts = [];
+
+      if (state.bookmark && state.bookmark.length) {
+        bookmarkedProducts = [...state.bookmark, ...bookmarkItem];
+      } else {
+        bookmarkedProducts = [...bookmarkItem];
+      }
 
       return {
         ...state,
-        products: updatedProducts,
         bookmark: bookmarkedProducts,
       };
 
