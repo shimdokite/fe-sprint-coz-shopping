@@ -11,8 +11,6 @@ export const Main = () => {
 
   const products = useSelector((state) => state.productsReducer.products);
   const bookmark = useSelector((state) => state.productsReducer.bookmark);
-  // console.log(item);
-  // console.log(bookmark);
 
   const dispatch = useDispatch();
 

@@ -68,7 +68,9 @@ export const ItemLists = ({ item }) => {
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.brand_image_url}
                 >
-                  <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  </div>
                 </ItemImg>
                 {/* 컴포넌트화 시켜보기 */}
                 <ItemDetail>
@@ -88,7 +90,9 @@ export const ItemLists = ({ item }) => {
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.image_url}
                 >
-                  <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  </div>
                 </ItemImg>
 
                 <ItemTitle># {product.title}</ItemTitle>
@@ -100,7 +104,9 @@ export const ItemLists = ({ item }) => {
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.image_url}
                 >
-                  <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  </div>
                 </ItemImg>
 
                 <ItemDetail>
@@ -120,7 +126,9 @@ export const ItemLists = ({ item }) => {
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.image_url}
                 >
-                  <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  </div>
                 </ItemImg>
                 <ItemTitle>{product.title}</ItemTitle>
                 <ItemSubTitle>{product.sub_title}</ItemSubTitle>

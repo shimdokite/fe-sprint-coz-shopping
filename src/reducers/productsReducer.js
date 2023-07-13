@@ -8,7 +8,7 @@ import { initialState } from "./initialState";
 export const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCTS_DATA:
-      // console.log(action.payload);
+      // console.log(action.payload)
       return {
         ...state,
         products: action.payload,
