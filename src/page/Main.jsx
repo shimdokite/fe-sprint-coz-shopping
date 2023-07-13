@@ -9,7 +9,7 @@ import { getProducts } from "../actions/api";
 export const Main = () => {
   const [item, setItem] = useState([]);
 
-  const products = useSelector((state) => state.productsReducer.products);
+  const products = useSelector((state) => state.productsReducer?.products);
   const bookmark = useSelector((state) => state.productsReducer.bookmark);
 
   const dispatch = useDispatch();
@@ -20,20 +20,20 @@ export const Main = () => {
 
   useEffect(() => {
     setItem([
-      products[Math.floor(Math.random() * products.length)],
-      products[Math.floor(Math.random() * products.length)],
-      products[Math.floor(Math.random() * products.length)],
-      products[Math.floor(Math.random() * products.length)],
+      products[Math.floor(Math.random() * products?.length)],
+      products[Math.floor(Math.random() * products?.length)],
+      products[Math.floor(Math.random() * products?.length)],
+      products[Math.floor(Math.random() * products?.length)],
     ]);
   }, [products]);
 
   return (
     <MainContainer>
       <ItemLists item={item} />
-      {bookmark && bookmark.length ? (
+      {bookmark && bookmark?.length ? (
         <BookmarkLists bookmark={bookmark} />
       ) : (
-        <div>북마크가 없습니다.</div>
+        <NonBookmark>북마크가 없습니다.</NonBookmark>
       )}
     </MainContainer>
   );
@@ -41,4 +41,14 @@ export const Main = () => {
 
 const MainContainer = styled.main`
   height: 700px;
+`;
+
+const NonBookmark = styled.div`
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 24px;
+  font-weight: 700;
 `;

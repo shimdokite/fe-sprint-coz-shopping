@@ -2,11 +2,19 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import iconOn from "../assets/iconOn.png";
 import closed from "../assets/closed.png";
+import { useDispatch } from "react-redux";
+import { deleteBookmark } from "../actions";
 
 export const BookmarkLists = ({ bookmark }) => {
   const [mark, setMark] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
+
+  const dispatch = useDispatch();
+
+  const handleeleteBookmark = (id) => {
+    dispatch(deleteBookmark(id));
+  };
 
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);
@@ -75,7 +83,9 @@ export const BookmarkLists = ({ bookmark }) => {
                   backgroundImg={product.brand_image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn />
+                    <BookmarkOn
+                      onClick={() => handleeleteBookmark(product.id)}
+                    />
                   </div>
                 </ItemImg>
                 {/* 컴포넌트화 시켜보기 */}
@@ -97,7 +107,9 @@ export const BookmarkLists = ({ bookmark }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn />
+                    <BookmarkOn
+                      onClick={() => handleeleteBookmark(product.id)}
+                    />
                   </div>
                 </ItemImg>
 
@@ -111,7 +123,9 @@ export const BookmarkLists = ({ bookmark }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn />
+                    <BookmarkOn
+                      onClick={() => handleeleteBookmark(product.id)}
+                    />
                   </div>
                 </ItemImg>
 
@@ -133,7 +147,9 @@ export const BookmarkLists = ({ bookmark }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn />
+                    <BookmarkOn
+                      onClick={() => handleeleteBookmark(product.id)}
+                    />
                   </div>
                 </ItemImg>
                 <ItemTitle>{product.title}</ItemTitle>

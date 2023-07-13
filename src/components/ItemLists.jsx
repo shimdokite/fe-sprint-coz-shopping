@@ -19,7 +19,7 @@ export const ItemLists = ({ item }) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
-  console.log(modalData);
+  // console.log(modalData);
   // console.log(isOpen);
 
   return (

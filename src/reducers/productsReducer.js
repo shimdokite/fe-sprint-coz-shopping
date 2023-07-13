@@ -26,13 +26,18 @@ export const productsReducer = (state = initialState, action) => {
       });
 
       const bookmarkItem = updatedProducts.filter(
-        (cur) => cur.isBookmark === true
+        (cur) => cur.id === action.payload
       );
 
       let bookmarkedProducts = [];
 
       if (state.bookmark && state.bookmark.length) {
-        bookmarkedProducts = [...state.bookmark, ...bookmarkItem];
+        bookmarkedProducts = [...state.bookmark];
+        bookmarkItem.forEach((item) => {
+          if (!bookmarkedProducts.some((product) => product.id === item.id)) {
+            bookmarkedProducts.push(item);
+          }
+        });
       } else {
         bookmarkedProducts = [...bookmarkItem];
       }
@@ -44,8 +49,10 @@ export const productsReducer = (state = initialState, action) => {
 
     case DELETE_BOOKMARK: {
       const updatedBookmarked = state.bookmark.filter(
-        ({ id }) => id !== action.payload.id
+        (cur) => cur.id !== action.payload
       );
+
+      console.log(updatedBookmarked);
 
       return {
         ...state,
