@@ -44,7 +44,7 @@ export const BookmarkLists = ({ bookmark }) => {
       {isOpen ? (
         <ModalContainer onClick={() => handleOpenModal(modalData)}>
           <ModalBackdrop>
-            <ModalView>
+            <ModalView onClick={(e) => e.stopPropagation()}>
               <ModalImg
                 backgroundImg={
                   modalData.brand_image_url
@@ -282,6 +282,7 @@ const ModalView = styled.div.attrs((props) => ({
 const ExitBtn = styled.img.attrs({
   src: `${closed}`,
 })`
+  cursor: pointer;
   display: flex;
   align-items: flex-end;
 
