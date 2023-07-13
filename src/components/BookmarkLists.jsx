@@ -135,6 +135,7 @@ const ItemDetail = styled.div`
 
 const ItemImg = styled.div`
   position: relative;
+  z-index: -1;
   > .product_img {
     border-radius: 12px;
     width: 264px;
