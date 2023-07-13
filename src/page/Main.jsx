@@ -47,4 +47,6 @@ export const Main = () => {
   );
 };
 
-const MainContainer = styled.main``;
+const MainContainer = styled.main`
+  height: 800px;
+`;
