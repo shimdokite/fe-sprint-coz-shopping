@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
-import { ItemLists } from "../components/ItemLists";
-import { BookmarkLists } from "../components/BookmarkLists";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../actions/api";
+import { ItemLists } from "../components/main/ItemLists";
+import { BookmarkLists } from "../components/main/BookmarkLists";
 
 export const Main = () => {
   const [item, setItem] = useState([]);

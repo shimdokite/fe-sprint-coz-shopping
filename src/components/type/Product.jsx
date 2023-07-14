@@ -1,46 +1,31 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import iconOn from "../assets/iconOn.png";
-import closed from "../assets/closed.png";
+import styled, { css } from "styled-components";
+import iconOff from "../../assets/iconOff.png";
+import closed from "../../assets/closed.png";
 import { useDispatch } from "react-redux";
-import { deleteBookmark } from "../actions";
+import { addToBookmark, deleteBookmark } from "../../actions";
 
-export const BookmarkLists = ({ bookmark }) => {
-  const [mark, setMark] = useState([]);
+export const Product = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
   const dispatch = useDispatch();
 
-  const handldeleteBookmark = (id) => {
-    dispatch(deleteBookmark(id));
+  const handleBookmark = (id) => {
+    dispatch(addToBookmark(id));
   };
+
+  // const handldeleteBookmark = (id) => {
+  //   dispatch(deleteBookmark(id));
+  // };
 
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
 
-  useEffect(() => {
-    const uniqueMark = [];
-    const bookmarkCopy = [...bookmark];
-
-    while (uniqueMark.length < 4 && bookmarkCopy.length > 0) {
-      const randomIndex = Math.floor(Math.random() * bookmarkCopy.length);
-      const randomProduct = bookmarkCopy.splice(randomIndex, 1)[0];
-      uniqueMark.push(randomProduct);
-    }
-
-    setMark(uniqueMark);
-  }, [bookmark]);
-
-  // console.log(bookmark);
-  // console.log(mark);
   return (
     <ItemListsMain>
-      <MainTitle>
-        <div className="bookmark_lists">북마크 리스트</div>
-      </MainTitle>
       {isOpen ? (
         <ModalContainer onClick={() => handleOpenModal(modalData)}>
           <ModalBackdrop>
@@ -56,9 +41,7 @@ export const BookmarkLists = ({ bookmark }) => {
                   <ExitBtn onClick={() => handleOpenModal(modalData)} />
                 </ModalTop>
                 <ModalBottom>
-                  <ModalBookMark
-                    onClick={() => handldeleteBookmark(modalData.id)}
-                  />
+                  <ModalBookMark onClick={() => handleBookmark(modalData.id)} />
                   <ModalItemTitle>
                     {modalData.type === "Brand" ? modalData.brand_name : null}
                     {modalData.type === "Category"
@@ -76,58 +59,16 @@ export const BookmarkLists = ({ bookmark }) => {
         </ModalContainer>
       ) : null}
       <ItemContainer>
-        {mark.map((product, idx) => (
+        {item.map((product, idx) => (
           <Items key={`${idx} + ${product}`}>
-            {product.type === "Brand" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.brand_image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
-                  </div>
-                </ItemImg>
-                {/* 컴포넌트화 시켜보기 */}
-                <ItemDetail>
-                  <ItemTitle>{product.brand_name}</ItemTitle>
-                  <ItemFollow>
-                    <div className="follwer_title">관심 고객수</div>
-                    <div className="product_follwer">
-                      {Number(product.follower).toLocaleString()}
-                    </div>
-                  </ItemFollow>
-                </ItemDetail>
-              </>
-            )}
-            {product.type === "Category" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
-                  </div>
-                </ItemImg>
-
-                <ItemTitle># {product.title}</ItemTitle>
-              </>
-            )}
             {product.type === "Product" && (
-              <>
+              <ItemInfo>
                 <ItemImg
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
+                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
                   </div>
                 </ItemImg>
 
@@ -140,23 +81,7 @@ export const BookmarkLists = ({ bookmark }) => {
                     <div> {Number(product.price).toLocaleString()}원</div>
                   </ItemPrice>
                 </ItemDetail>
-              </>
-            )}
-            {product.type === "Exhibition" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
-                  </div>
-                </ItemImg>
-                <ItemTitle>{product.title}</ItemTitle>
-                <ItemSubTitle>{product.sub_title}</ItemSubTitle>
-              </>
+              </ItemInfo>
             )}
           </Items>
         ))}
@@ -165,7 +90,6 @@ export const BookmarkLists = ({ bookmark }) => {
   );
 };
 
-/* 북마크 리스트 */
 const ItemListsMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -173,28 +97,22 @@ const ItemListsMain = styled.div`
   width: 100%;
 `;
 
-const MainTitle = styled.div`
-  width: 1280px;
-  padding: 0 76px;
-  margin: 25px 0 10px 0;
-
-  > .bookmark_lists {
-    font-weight: 600;
-    font-size: 24px;
-  }
-`;
-
 const ItemContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 24px;
+  flex-wrap: wrap;
+
   padding: 0 76px;
+  margin: 20px;
+
+  width: 1136px;
 `;
 
-const Items = styled.section``;
+const Items = styled.div``;
+const ItemInfo = styled.div``;
 
-const BookmarkOn = styled.img.attrs({
-  src: `${iconOn}`,
+const BookmarkOff = styled.img.attrs({
+  src: `${iconOff}`,
 })`
   cursor: pointer;
 
@@ -217,6 +135,7 @@ const ItemImg = styled.div`
   background-image: url(${(props) => props.backgroundImg});
   background-repeat: no-repeat;
   background-size: cover;
+
   width: 264px;
   height: 210px;
 
@@ -227,18 +146,6 @@ const ItemTitle = styled.div`
   font-weight: 800;
   margin: 5px 0 0 0;
 `;
-
-const ItemFollow = styled.div`
-  margin: 5px 0 0 0;
-  > .follwer_title {
-    font-weight: 800;
-  }
-  > .product_follwer {
-    text-align: end;
-  }
-`;
-
-const ItemSubTitle = styled.div``;
 
 const ItemPrice = styled.div`
   display: flex;
@@ -300,7 +207,7 @@ const ExitBtn = styled.img.attrs({
   }
 `;
 
-const ModalBookMark = styled(BookmarkOn)``;
+const ModalBookMark = styled(BookmarkOff)``;
 const ModalItemTitle = styled(ItemTitle)`
   color: #ffffff;
   font-weight: 700;

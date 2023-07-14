@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import useDetectClose from "../hooks/useDetectClose";
+import useDetectClose from "../../hooks/useDetectClose";
 import { Link } from "react-router-dom";
 
 const DropdownMenu = () => {

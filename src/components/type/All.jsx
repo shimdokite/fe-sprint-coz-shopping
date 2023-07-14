@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import iconOff from "../assets/iconOff.png";
-import closed from "../assets/closed.png";
+import iconOff from "../../assets/iconOff.png";
+import closed from "../../assets/closed.png";
 import { useDispatch } from "react-redux";
-import { addToBookmark } from "../actions";
+import { addToBookmark } from "../../actions";
 
-export const ItemLists = ({ item }) => {
+export const All = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
@@ -19,14 +19,9 @@ export const ItemLists = ({ item }) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
-  // console.log(modalData);
-  // console.log(isOpen);
 
   return (
     <ItemListsMain>
-      <MainTitle>
-        <div className="item_list">상품 리스트</div>
-      </MainTitle>
       {isOpen ? (
         <ModalContainer onClick={() => handleOpenModal(modalData)}>
           <ModalBackdrop>
@@ -149,25 +144,17 @@ const ItemListsMain = styled.div`
   width: 100%;
 `;
 
-const MainTitle = styled.div`
-  width: 1280px;
-  padding: 0 76px;
-  margin: 25px 0 10px 0;
-
-  > .item_list {
-    font-weight: 600;
-    font-size: 24px;
-  }
-`;
-
 const ItemContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
+
+  margin: 20px;
   padding: 0 76px;
 `;
 
-const Items = styled.section``;
+const Items = styled.div``;
 
 const BookmarkOff = styled.img.attrs({
   src: `${iconOff}`,

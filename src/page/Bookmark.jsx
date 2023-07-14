@@ -9,7 +9,7 @@ import brand from "../assets/brand.png";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../actions/api";
-import { BookmarkList } from "../components/BookmarkList";
+import { BookmarkList } from "../components/bookmark/BookmarkList";
 
 export const Bookmark = () => {
   const typeItem = [

@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import { Header } from "./components/Header";
 import { Main } from "./page/Main";
 import { Bookmark } from "./page/Bookmark";
 import { Products } from "./page/Products";
-import { Footer } from "./components/Footer";
 import "./App.css";
+import { Header } from "./components/header/Header";
+import { Footer } from "./components/footer/Footer";
 
 function App() {
   return (

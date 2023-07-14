@@ -9,9 +9,21 @@ import brand from "../assets/brand.png";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../actions/api";
-import { ProductList } from "../components/ProductList";
+
+import { All } from "../components/type/All";
+import { Product } from "../components/type/Product";
+import { Category } from "../components/type/Category";
+import { Exhibition } from "../components/type/Exhibition";
+import { Brand } from "../components/type/Brand";
 
 export const Products = () => {
+  const item = useSelector((state) => state.productsReducer?.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
   const typeItem = [
     {
       type: "전체",
@@ -35,24 +47,56 @@ export const Products = () => {
     },
   ];
 
-  const item = useSelector((state) => state.productsReducer?.products);
-  const dispatch = useDispatch();
+  const [tab, setTab] = useState(0);
 
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
+  const tabs = [
+    <>
+      <All item={item} />
+    </>,
+    <>
+      <Product item={item} />
+    </>,
+    <>
+      <Category item={item} />
+    </>,
+    <>
+      <Exhibition item={item} />
+    </>,
+    <>
+      <Brand item={item} />
+    </>,
+  ];
+
+  const handleChagneTab = (type) => {
+    console.log(type);
+    if (type === "상품") {
+      setTab(1);
+    } else if (type === "카테고리") {
+      setTab(2);
+    } else if (type === "기획전") {
+      setTab(3);
+    } else if (type === "브랜드") {
+      setTab(4);
+    } else {
+      setTab(0);
+    }
+  };
 
   return (
     <>
       <TypeContainer>
         {typeItem.map((cur, idx) => (
           <Typefilter key={`${cur} + ${idx}`}>
-            <TypeFilterImg src={cur.img} alt={cur.type} />
+            <TypeFilterImg
+              src={cur.img}
+              alt={cur.type}
+              onClick={() => handleChagneTab(cur.type)}
+            />
             <TypefilterTitle>{cur.type}</TypefilterTitle>
           </Typefilter>
         ))}
       </TypeContainer>
-      <ProductList item={item} />
+      {tabs[tab]}
     </>
   );
 };

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import iconOff from "../assets/iconOff.png";
-import closed from "../assets/closed.png";
+import iconOff from "../../assets/iconOff.png";
+import closed from "../../assets/closed.png";
 import { useDispatch } from "react-redux";
-import { addToBookmark } from "../actions";
+import { addToBookmark } from "../../actions";
 
-export const ProductList = ({ item }) => {
+export const Category = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
@@ -57,28 +57,6 @@ export const ProductList = ({ item }) => {
       <ItemContainer>
         {item.map((product, idx) => (
           <Items key={`${idx} + ${product}`}>
-            {product.type === "Brand" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.brand_image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
-                  </div>
-                </ItemImg>
-                {/* 컴포넌트화 시켜보기 */}
-                <ItemDetail>
-                  <ItemTitle>{product.brand_name}</ItemTitle>
-                  <ItemFollow>
-                    <div className="follwer_title">관심 고객수</div>
-                    <div className="product_follwer">
-                      {Number(product.follower).toLocaleString()}
-                    </div>
-                  </ItemFollow>
-                </ItemDetail>
-              </>
-            )}
             {product.type === "Category" && (
               <>
                 <ItemImg
@@ -93,42 +71,6 @@ export const ProductList = ({ item }) => {
                 <ItemTitle># {product.title}</ItemTitle>
               </>
             )}
-            {product.type === "Product" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
-                  </div>
-                </ItemImg>
-
-                <ItemDetail>
-                  <ItemTitle>{product.title}</ItemTitle>
-                  <ItemPrice>
-                    <div className="discount">
-                      {product.discountPercentage}%
-                    </div>
-                    <div> {Number(product.price).toLocaleString()}원</div>
-                  </ItemPrice>
-                </ItemDetail>
-              </>
-            )}
-            {product.type === "Exhibition" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
-                  </div>
-                </ItemImg>
-                <ItemTitle>{product.title}</ItemTitle>
-                <ItemSubTitle>{product.sub_title}</ItemSubTitle>
-              </>
-            )}
           </Items>
         ))}
       </ItemContainer>
@@ -141,14 +83,14 @@ const ItemListsMain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 24px;
+  /* gap: 24px; */
 
   margin: 20px;
   padding: 0 76px;
@@ -163,11 +105,6 @@ const BookmarkOff = styled.img.attrs({
 
   width: 24px;
   height: 24px;
-`;
-
-const ItemDetail = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const ItemImg = styled.div`
@@ -189,30 +126,6 @@ const ItemImg = styled.div`
 const ItemTitle = styled.div`
   font-weight: 800;
   margin: 5px 0 0 0;
-`;
-
-const ItemFollow = styled.div`
-  margin: 5px 0 0 0;
-  > .follwer_title {
-    font-weight: 800;
-  }
-  > .product_follwer {
-    text-align: end;
-  }
-`;
-
-const ItemSubTitle = styled.div``;
-
-const ItemPrice = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 5px 0 0 0;
-
-  > .discount {
-    text-align: end;
-    color: #452cdd;
-    font-weight: 800;
-  }
 `;
 
 /* 모달 */
