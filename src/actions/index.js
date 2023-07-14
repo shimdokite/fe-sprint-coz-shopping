@@ -1,6 +1,7 @@
 export const GET_PRODUCTS_DATA = "GET_PRODUCTS_DATA";
 export const ADD_TO_BOOKMARK = "ADD_TO_BOOKMARK";
 export const DELETE_BOOKMARK = "DELETE_BOOKMARK";
+export const FILTER_TYPE = "FILTER_TYPE";
 
 export const getProductsData = (products) => {
   return {
@@ -20,5 +21,12 @@ export const deleteBookmark = (id) => {
   return {
     type: DELETE_BOOKMARK,
     payload: id,
+  };
+};
+
+export const filtertype = (type) => {
+  return {
+    type: FILTER_TYPE,
+    payload: type,
   };
 };

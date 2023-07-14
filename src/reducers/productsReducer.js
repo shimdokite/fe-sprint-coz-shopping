@@ -2,6 +2,7 @@ import {
   ADD_TO_BOOKMARK,
   DELETE_BOOKMARK,
   GET_PRODUCTS_DATA,
+  FILTER_TYPE,
 } from "../actions";
 import { initialState } from "./initialState";
 
@@ -59,6 +60,37 @@ export const productsReducer = (state = initialState, action) => {
         bookmark: updatedBookmarked,
       };
     }
+
+    case FILTER_TYPE:
+      const filteredProducts = state.products.filter(
+        (product) => product.type === action.payload
+      );
+
+      if (action.payload === "Product") {
+        return {
+          ...state,
+          products: filteredProducts,
+        };
+      } else if (action.payload === "Category") {
+        return {
+          ...state,
+          products: filteredProducts,
+        };
+      } else if (action.payload === "Exhibition") {
+        return {
+          ...state,
+          products: filteredProducts,
+        };
+      } else if (action.payload === "Brand") {
+        return {
+          ...state,
+          products: filteredProducts,
+        };
+      } else {
+        return {
+          ...state,
+        };
+      }
 
     default:
       return state;

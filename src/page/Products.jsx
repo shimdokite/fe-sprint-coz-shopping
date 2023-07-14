@@ -74,12 +74,14 @@ const Typefilter = styled.div`
 `;
 
 const TypeFilterImg = styled.img`
+  cursor: pointer;
   width: 82px;
   height: 82px;
   border-radius: 50%;
 `;
 
 const TypefilterTitle = styled.div`
+  cursor: pointer;
   margin-top: 10px;
 `;
 

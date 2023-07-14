@@ -5,8 +5,7 @@ import closed from "../assets/closed.png";
 import { useDispatch } from "react-redux";
 import { deleteBookmark } from "../actions";
 
-export const BookmarkLists = ({ bookmark }) => {
-  const [mark, setMark] = useState([]);
+export const BookmarkList = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
@@ -21,21 +20,6 @@ export const BookmarkLists = ({ bookmark }) => {
     setModalData(product);
   };
 
-  useEffect(() => {
-    const uniqueMark = [];
-    const bookmarkCopy = [...bookmark];
-
-    while (uniqueMark.length < 4 && bookmarkCopy.length > 0) {
-      const randomIndex = Math.floor(Math.random() * bookmarkCopy.length);
-      const randomProduct = bookmarkCopy.splice(randomIndex, 1)[0];
-      uniqueMark.push(randomProduct);
-    }
-
-    setMark(uniqueMark);
-  }, [bookmark]);
-
-  // console.log(bookmark);
-  // console.log(mark);
   return (
     <ItemListsMain>
       <MainTitle>
@@ -76,7 +60,7 @@ export const BookmarkLists = ({ bookmark }) => {
         </ModalContainer>
       ) : null}
       <ItemContainer>
-        {mark.map((product, idx) => (
+        {item.map((product, idx) => (
           <Items key={`${idx} + ${product}`}>
             {product.type === "Brand" && (
               <>
@@ -186,6 +170,7 @@ const MainTitle = styled.div`
 
 const ItemContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
   padding: 0 76px;
