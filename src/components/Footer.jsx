@@ -18,7 +18,10 @@ const FooterContainter = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 80px;
+
+  border-top: 1px solid #0000001a;
+  padding: 10px 0 15px 0;
 `;
 
 const FooterUp = styled.div`
@@ -26,7 +29,7 @@ const FooterUp = styled.div`
   color: #888888;
 
   > .privacy {
-    border-right: 1px solid #888888;
+    border-right: 1.5px solid #888888;
     padding: 0 5px 0 0;
   }
 

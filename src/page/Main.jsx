@@ -8,19 +8,9 @@ import { getProducts } from "../actions/api";
 
 export const Main = () => {
   const [item, setItem] = useState([]);
-  const products = useSelector((state) => state.productsReducer.products);
-  // const bookmark = useSelector((state) => state.productsReducer.bookmark);
 
-  // const sliceProducts = (products, type) => {
-  //   if (type === "ALL") {
-  //     console.log([
-
-  //     ]);
-  //   }
-  // };
-
-  // const allProducts = sliceProducts(products, "All");
-  // const bookmark_products = sliceProducts(bookmark, "Bookmark");
+  const products = useSelector((state) => state.productsReducer?.products);
+  const bookmark = useSelector((state) => state.productsReducer.bookmark);
 
   const dispatch = useDispatch();
 
@@ -30,21 +20,35 @@ export const Main = () => {
 
   useEffect(() => {
     setItem([
-      products[Math.floor(Math.random() * products.length)],
-      products[Math.floor(Math.random() * products.length)],
-      products[Math.floor(Math.random() * products.length)],
-      products[Math.floor(Math.random() * products.length)],
+      products[Math.floor(Math.random() * products?.length)],
+      products[Math.floor(Math.random() * products?.length)],
+      products[Math.floor(Math.random() * products?.length)],
+      products[Math.floor(Math.random() * products?.length)],
     ]);
   }, [products]);
 
   return (
     <MainContainer>
       <ItemLists item={item} />
-      {/* {bookmark_products?.length ? (
-        <BookmarkLists bookmark_products={bookmark} />
-      ) : null} */}
+      {bookmark && bookmark?.length ? (
+        <BookmarkLists bookmark={bookmark} />
+      ) : (
+        <NonBookmark>북마크가 없습니다.</NonBookmark>
+      )}
     </MainContainer>
   );
 };
 
-const MainContainer = styled.main``;
+const MainContainer = styled.main`
+  height: 700px;
+`;
+
+const NonBookmark = styled.div`
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 24px;
+  font-weight: 700;
+`;

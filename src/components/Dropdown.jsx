@@ -84,7 +84,7 @@ const Menu = styled.div`
 
   transform: translate(-70%, -20px);
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-  z-index: 9;
+  z-index: 999;
 
   &:after {
     content: "";
@@ -105,7 +105,6 @@ const Menu = styled.div`
       opacity: 1;
       visibility: visible;
       transform: translate(-70%, 0);
-      left: ;
     `};
 `;
 
