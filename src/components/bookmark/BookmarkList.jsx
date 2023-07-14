@@ -2,10 +2,42 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import iconOn from "../../assets/iconOn.png";
 import closed from "../../assets/closed.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteBookmark } from "../../actions";
 
-export const BookmarkList = ({ item }) => {
+export const BookmarkList = ({ tabs }) => {
+  // 자식 컴포넌트에서 useSelector 로 state 뽑아오기
+  const item = useSelector((state) => state.productsReducer?.bookmark);
+  const [filteredItem, setFilterdItem] = useState(item);
+
+  useEffect(() => {
+    switch (tabs) {
+      case "All":
+        setFilterdItem(item);
+        break;
+
+      case "Product":
+        setFilterdItem(item.filter((cur) => cur.type === "Product"));
+        break;
+
+      case "Category":
+        setFilterdItem(item.filter((cur) => cur.type === "Category"));
+        break;
+
+      case "Exhibition":
+        setFilterdItem(item.filter((cur) => cur.type === "Exhibition"));
+        break;
+
+      case "Brand":
+        setFilterdItem(item.filter((cur) => cur.type === "Brand"));
+        break;
+
+      default:
+        setFilterdItem(item);
+        break;
+    }
+  }, [tabs]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
@@ -22,9 +54,6 @@ export const BookmarkList = ({ item }) => {
 
   return (
     <ItemListsMain>
-      <MainTitle>
-        <div className="bookmark_lists">북마크 리스트</div>
-      </MainTitle>
       {isOpen ? (
         <ModalContainer onClick={() => handleOpenModal(modalData)}>
           <ModalBackdrop>
@@ -60,7 +89,7 @@ export const BookmarkList = ({ item }) => {
         </ModalContainer>
       ) : null}
       <ItemContainer>
-        {item.map((product, idx) => (
+        {filteredItem.map((product, idx) => (
           <Items key={`${idx} + ${product}`}>
             {product.type === "Brand" && (
               <>
@@ -149,7 +178,7 @@ export const BookmarkList = ({ item }) => {
   );
 };
 
-/* 북마크 리스트 */
+/* 상품 리스트 */
 const ItemListsMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -157,26 +186,19 @@ const ItemListsMain = styled.div`
   width: 100%;
 `;
 
-const MainTitle = styled.div`
-  width: 1280px;
-  padding: 0 76px;
-  margin: 25px 0 10px 0;
-
-  > .bookmark_lists {
-    font-weight: 600;
-    font-size: 24px;
-  }
-`;
-
 const ItemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
+
+  margin: 20px;
   padding: 0 76px;
 `;
 
-const Items = styled.section``;
+const Items = styled.div`
+  width: 264px;
+`;
 
 const BookmarkOn = styled.img.attrs({
   src: `${iconOn}`,
@@ -211,6 +233,7 @@ const ItemImg = styled.div`
 const ItemTitle = styled.div`
   font-weight: 800;
   margin: 5px 0 0 0;
+  letter-spacing: -1.3px;
 `;
 
 const ItemFollow = styled.div`

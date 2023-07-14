@@ -9,15 +9,10 @@ import brand from "../assets/brand.png";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../actions/api";
-
-import { All } from "../components/type/All";
 import { Product } from "../components/type/Product";
-import { Category } from "../components/type/Category";
-import { Exhibition } from "../components/type/Exhibition";
-import { Brand } from "../components/type/Brand";
 
 export const Products = () => {
-  const item = useSelector((state) => state.productsReducer?.products);
+  // dispatch 는 부모 컴포넌트에 두기
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,61 +21,73 @@ export const Products = () => {
 
   const typeItem = [
     {
-      type: "전체",
+      name: "전체",
+      type: "All",
       img: all,
     },
     {
-      type: "상품",
+      name: "상품",
+      type: "Product",
       img: product,
     },
     {
-      type: "카테고리",
+      name: "카테고리",
+      type: "Category",
       img: category,
     },
     {
-      type: "기획전",
+      name: "기획전",
+      type: "Exhibition",
       img: exhibition,
     },
     {
-      type: "브랜드",
+      name: "브랜드",
+      type: "Brand",
       img: brand,
     },
   ];
 
-  const [tab, setTab] = useState(0);
+  // const [tab, setTab] = useState(0);
 
-  const tabs = [
-    <>
-      <All item={item} />
-    </>,
-    <>
-      <Product item={item} />
-    </>,
-    <>
-      <Category item={item} />
-    </>,
-    <>
-      <Exhibition item={item} />
-    </>,
-    <>
-      <Brand item={item} />
-    </>,
-  ];
+  // const tabs = [
+  //   <>
+  //     <All item={item} />
+  //   </>,
+  //   <>
+  //     <Product item={item} />
+  //   </>,
+  //   <>
+  //     <Category item={item} />
+  //   </>,
+  //   <>
+  //     <Exhibition item={item} />
+  //   </>,
+  //   <>
+  //     <Brand item={item} />
+  //   </>,
+  // ];
 
+  // const handleChagneTab = (type) => {
+  //   console.log(type);
+  //   if (type === "상품") {
+  //     setTab(1);
+  //   } else if (type === "카테고리") {
+  //     setTab(2);
+  //   } else if (type === "기획전") {
+  //     setTab(3);
+  //   } else if (type === "브랜드") {
+  //     setTab(4);
+  //   } else {
+  //     setTab(0);
+  //   }
+  // };
+
+  const [tabs, setTabs] = useState("All");
   const handleChagneTab = (type) => {
-    console.log(type);
-    if (type === "상품") {
-      setTab(1);
-    } else if (type === "카테고리") {
-      setTab(2);
-    } else if (type === "기획전") {
-      setTab(3);
-    } else if (type === "브랜드") {
-      setTab(4);
-    } else {
-      setTab(0);
-    }
+    setTabs(type);
   };
+
+  // console.log(tabs);
 
   return (
     <>
@@ -92,11 +99,17 @@ export const Products = () => {
               alt={cur.type}
               onClick={() => handleChagneTab(cur.type)}
             />
-            <TypefilterTitle>{cur.type}</TypefilterTitle>
+            <TypefilterTitle
+              active={tabs === idx}
+              onClick={() => handleChagneTab(cur.type)}
+            >
+              {cur.name}
+            </TypefilterTitle>
           </Typefilter>
         ))}
       </TypeContainer>
-      {tabs[tab]}
+      {/* {tabs[tab]} */}
+      <Product tabs={tabs} />
     </>
   );
 };
@@ -112,7 +125,6 @@ const Typefilter = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   margin-top: 20px;
   /* height: 500px; */
 `;
@@ -127,6 +139,19 @@ const TypeFilterImg = styled.img`
 const TypefilterTitle = styled.div`
   cursor: pointer;
   margin-top: 10px;
+  color: ${(props) => (props.active ? "#412DD4" : "black")};
+  font-weight: ${(props) => (props.active ? "700" : "none")};
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: ${(props) => (props.active ? "3px" : "0")};
+    background-color: ${(props) => (props.active ? "#412DD4" : "transparent")};
+  }
 `;
 
 export default Products;

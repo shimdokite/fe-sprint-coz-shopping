@@ -1,11 +1,43 @@
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import iconOff from "../../assets/iconOff.png";
 import closed from "../../assets/closed.png";
-import { useDispatch } from "react-redux";
-import { addToBookmark, deleteBookmark } from "../../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { addToBookmark } from "../../actions";
 
-export const Product = ({ item }) => {
+export const Product = ({ tabs }) => {
+  // 자식 컴포넌트에서 useSelector 로 state 뽑아오기
+  const item = useSelector((state) => state.productsReducer?.products);
+  const [filteredItem, setFilterdItem] = useState(item);
+
+  useEffect(() => {
+    switch (tabs) {
+      case "All":
+        setFilterdItem(item);
+        break;
+
+      case "Product":
+        setFilterdItem(item.filter((cur) => cur.type === "Product"));
+        break;
+
+      case "Category":
+        setFilterdItem(item.filter((cur) => cur.type === "Category"));
+        break;
+
+      case "Exhibition":
+        setFilterdItem(item.filter((cur) => cur.type === "Exhibition"));
+        break;
+
+      case "Brand":
+        setFilterdItem(item.filter((cur) => cur.type === "Brand"));
+        break;
+
+      default:
+        setFilterdItem(item);
+        break;
+    }
+  }, [tabs]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
@@ -14,10 +46,6 @@ export const Product = ({ item }) => {
   const handleBookmark = (id) => {
     dispatch(addToBookmark(id));
   };
-
-  // const handldeleteBookmark = (id) => {
-  //   dispatch(deleteBookmark(id));
-  // };
 
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);
@@ -59,10 +87,46 @@ export const Product = ({ item }) => {
         </ModalContainer>
       ) : null}
       <ItemContainer>
-        {item.map((product, idx) => (
+        {filteredItem.map((product, idx) => (
           <Items key={`${idx} + ${product}`}>
+            {product.type === "Brand" && (
+              <>
+                <ItemImg
+                  onClick={() => handleOpenModal(product)}
+                  backgroundImg={product.brand_image_url}
+                >
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  </div>
+                </ItemImg>
+                {/* 컴포넌트화 시켜보기 */}
+                <ItemDetail>
+                  <ItemTitle>{product.brand_name}</ItemTitle>
+                  <ItemFollow>
+                    <div className="follwer_title">관심 고객수</div>
+                    <div className="product_follwer">
+                      {Number(product.follower).toLocaleString()}
+                    </div>
+                  </ItemFollow>
+                </ItemDetail>
+              </>
+            )}
+            {product.type === "Category" && (
+              <>
+                <ItemImg
+                  onClick={() => handleOpenModal(product)}
+                  backgroundImg={product.image_url}
+                >
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  </div>
+                </ItemImg>
+
+                <ItemTitle># {product.title}</ItemTitle>
+              </>
+            )}
             {product.type === "Product" && (
-              <ItemInfo>
+              <>
                 <ItemImg
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.image_url}
@@ -81,7 +145,21 @@ export const Product = ({ item }) => {
                     <div> {Number(product.price).toLocaleString()}원</div>
                   </ItemPrice>
                 </ItemDetail>
-              </ItemInfo>
+              </>
+            )}
+            {product.type === "Exhibition" && (
+              <>
+                <ItemImg
+                  onClick={() => handleOpenModal(product)}
+                  backgroundImg={product.image_url}
+                >
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                  </div>
+                </ItemImg>
+                <ItemTitle>{product.title}</ItemTitle>
+                <ItemSubTitle>{product.sub_title}</ItemSubTitle>
+              </>
             )}
           </Items>
         ))}
@@ -90,6 +168,7 @@ export const Product = ({ item }) => {
   );
 };
 
+/* 상품 리스트 */
 const ItemListsMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -99,17 +178,17 @@ const ItemListsMain = styled.div`
 
 const ItemContainer = styled.div`
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
 
-  padding: 0 76px;
   margin: 20px;
-
-  width: 1136px;
+  padding: 0 76px;
 `;
 
-const Items = styled.div``;
-const ItemInfo = styled.div``;
+const Items = styled.div`
+  width: 264px;
+`;
 
 const BookmarkOff = styled.img.attrs({
   src: `${iconOff}`,
@@ -135,7 +214,6 @@ const ItemImg = styled.div`
   background-image: url(${(props) => props.backgroundImg});
   background-repeat: no-repeat;
   background-size: cover;
-
   width: 264px;
   height: 210px;
 
@@ -145,7 +223,20 @@ const ItemImg = styled.div`
 const ItemTitle = styled.div`
   font-weight: 800;
   margin: 5px 0 0 0;
+  letter-spacing: -1.3px;
 `;
+
+const ItemFollow = styled.div`
+  margin: 5px 0 0 0;
+  > .follwer_title {
+    font-weight: 800;
+  }
+  > .product_follwer {
+    text-align: end;
+  }
+`;
+
+const ItemSubTitle = styled.div``;
 
 const ItemPrice = styled.div`
   display: flex;
