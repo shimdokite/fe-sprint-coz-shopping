@@ -5,6 +5,7 @@ import closed from "../../assets/closed.png";
 import { useDispatch, useSelector } from "react-redux";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
 import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
+import { getRandomElements } from "../../util/method";
 
 export const ItemLists = () => {
   const dispatch = useDispatch();
@@ -20,13 +21,7 @@ export const ItemLists = () => {
   };
 
   useEffect(() => {
-    if (!products) return;
-    setItem([
-      products[Math.floor(Math.random() * products?.length)],
-      products[Math.floor(Math.random() * products?.length)],
-      products[Math.floor(Math.random() * products?.length)],
-      products[Math.floor(Math.random() * products?.length)],
-    ]);
+    setItem(getRandomElements(products, 4));
   }, [products]);
 
   return (
