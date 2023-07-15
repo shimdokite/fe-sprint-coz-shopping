@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import closed from "../../assets/closed.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
 import { getRandomElements } from "../../util/method";
@@ -9,12 +9,8 @@ import { getRandomElements } from "../../util/method";
 export const BookmarkLists = () => {
   const products = useSelector((state) => state.productsReducer?.products);
   const bookmark = products.filter((cur) => cur.isBookmark);
-
-  const [mark, setMark] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
-
-  const dispatch = useDispatch();
 
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);

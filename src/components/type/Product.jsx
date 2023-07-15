@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import closed from "../../assets/closed.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
 
@@ -9,6 +9,13 @@ export const Product = ({ tabs }) => {
   // 자식 컴포넌트에서 useSelector 로 state 뽑아오기
   const item = useSelector((state) => state.productsReducer?.products);
   const [filteredItem, setFilterdItem] = useState(item);
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalData, setModalData] = useState();
+
+  const handleOpenModal = (product) => {
+    setIsOpen(!isOpen);
+    setModalData(product);
+  };
 
   useEffect(() => {
     switch (tabs) {
@@ -37,16 +44,6 @@ export const Product = ({ tabs }) => {
         break;
     }
   }, [tabs]);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalData, setModalData] = useState();
-
-  const dispatch = useDispatch();
-
-  const handleOpenModal = (product) => {
-    setIsOpen(!isOpen);
-    setModalData(product);
-  };
 
   return (
     <ItemListsMain>

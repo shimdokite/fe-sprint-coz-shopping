@@ -10,6 +10,13 @@ export const BookmarkList = ({ tabs }) => {
   // 자식 컴포넌트에서 useSelector 로 state 뽑아오기
   const item = useSelector((state) => state.productsReducer?.products);
   const [filteredItem, setFilterdItem] = useState(item);
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalData, setModalData] = useState();
+
+  const handleOpenModal = (product) => {
+    setIsOpen(!isOpen);
+    setModalData(product);
+  };
 
   useEffect(() => {
     switch (tabs) {
@@ -39,17 +46,7 @@ export const BookmarkList = ({ tabs }) => {
     }
   }, [tabs, item]);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalData, setModalData] = useState();
-
-  const dispatch = useDispatch();
-
-  const handleOpenModal = (product) => {
-    setIsOpen(!isOpen);
-    setModalData(product);
-  };
-
-  console.log(filteredItem.filter((cur) => cur.isBookmark));
+  // console.log(filteredItem.filter((cur) => cur.isBookmark));
   return (
     <ItemListsMain>
       {isOpen ? (

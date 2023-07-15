@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import all from "../assets/all.png";
@@ -7,14 +7,9 @@ import category from "../assets/category.png";
 import exhibition from "../assets/exhibition.png";
 import brand from "../assets/brand.png";
 
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../actions/api";
 import { BookmarkList } from "../components/bookmark/BookmarkList";
 
 export const Bookmark = () => {
-  // dispatch 는 부모 컴포넌트에 두기
-  const dispatch = useDispatch();
-
   const typeItem = [
     {
       name: "전체",
@@ -43,47 +38,10 @@ export const Bookmark = () => {
     },
   ];
 
-  // const [tab, setTab] = useState(0);
-
-  // const tabs = [
-  //   <>
-  //     <All item={item} />
-  //   </>,
-  //   <>
-  //     <Product item={item} />
-  //   </>,
-  //   <>
-  //     <Category item={item} />
-  //   </>,
-  //   <>
-  //     <Exhibition item={item} />
-  //   </>,
-  //   <>
-  //     <Brand item={item} />
-  //   </>,
-  // ];
-
-  // const handleChagneTab = (type) => {
-  //   console.log(type);
-  //   if (type === "상품") {
-  //     setTab(1);
-  //   } else if (type === "카테고리") {
-  //     setTab(2);
-  //   } else if (type === "기획전") {
-  //     setTab(3);
-  //   } else if (type === "브랜드") {
-  //     setTab(4);
-  //   } else {
-  //     setTab(0);
-  //   }
-  // };
-
   const [tabs, setTabs] = useState("All");
   const handleChagneTab = (type) => {
     setTabs(type);
   };
-
-  // console.log(tabs);
 
   return (
     <>
@@ -104,7 +62,6 @@ export const Bookmark = () => {
           </Typefilter>
         ))}
       </TypeContainer>
-      {/* {tabs[tab]} */}
       <BookmarkList tabs={tabs} />
     </>
   );

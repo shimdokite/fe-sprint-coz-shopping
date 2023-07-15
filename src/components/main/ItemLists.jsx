@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
 import closed from "../../assets/closed.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
 import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
 import { getRandomElements } from "../../util/method";
 
 export const ItemLists = () => {
-  const dispatch = useDispatch();
   const products = useSelector((state) => state.productsReducer?.products);
-
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
   const [item, setItem] = useState([]);

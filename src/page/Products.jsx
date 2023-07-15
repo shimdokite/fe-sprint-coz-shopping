@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import all from "../assets/all.png";
@@ -7,13 +7,10 @@ import category from "../assets/category.png";
 import exhibition from "../assets/exhibition.png";
 import brand from "../assets/brand.png";
 
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../actions/api";
 import { Product } from "../components/type/Product";
 
 export const Products = () => {
   // dispatch 는 부모 컴포넌트에 두기
-  const dispatch = useDispatch();
 
   const typeItem = [
     {
@@ -42,8 +39,6 @@ export const Products = () => {
       img: brand,
     },
   ];
-
-  // const [tab, setTab] = useState(0);
 
   // const tabs = [
   //   <>
@@ -83,8 +78,6 @@ export const Products = () => {
     setTabs(type);
   };
 
-  // console.log(tabs);
-
   return (
     <>
       <TypeContainer>
@@ -104,7 +97,6 @@ export const Products = () => {
           </Typefilter>
         ))}
       </TypeContainer>
-      {/* {tabs[tab]} */}
       <Product tabs={tabs} />
     </>
   );
