@@ -1,36 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../actions/api";
+import { useSelector } from "react-redux";
 import { ItemLists } from "../components/main/ItemLists";
 import { BookmarkLists } from "../components/main/BookmarkLists";
 
 export const Main = () => {
-  const [item, setItem] = useState([]);
-
   const products = useSelector((state) => state.productsReducer?.products);
-  const bookmark = useSelector((state) => state.productsReducer.bookmark);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-
-  useEffect(() => {
-    setItem([
-      products[Math.floor(Math.random() * products?.length)],
-      products[Math.floor(Math.random() * products?.length)],
-      products[Math.floor(Math.random() * products?.length)],
-      products[Math.floor(Math.random() * products?.length)],
-    ]);
-  }, [products]);
+  const bookmark = products?.filter((cur) => cur.isBookmark);
 
   return (
     <MainContainer>
-      <ItemLists item={item} />
-      {bookmark && bookmark?.length ? (
-        <BookmarkLists bookmark={bookmark} />
+      <ItemLists />
+      {bookmark?.length > 0 ? (
+        <BookmarkLists />
       ) : (
         <NonBookmark>북마크가 없습니다.</NonBookmark>
       )}

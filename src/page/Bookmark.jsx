@@ -15,10 +15,6 @@ export const Bookmark = () => {
   // dispatch 는 부모 컴포넌트에 두기
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-
   const typeItem = [
     {
       name: "전체",
@@ -100,7 +96,7 @@ export const Bookmark = () => {
               onClick={() => handleChagneTab(cur.type)}
             />
             <TypefilterTitle
-              active={tabs === idx}
+              active={tabs === cur.type}
               onClick={() => handleChagneTab(cur.type)}
             >
               {cur.name}

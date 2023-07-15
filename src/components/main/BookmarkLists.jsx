@@ -1,41 +1,83 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import iconOn from "../../assets/iconOn.png";
 import closed from "../../assets/closed.png";
-import { useDispatch } from "react-redux";
-import { deleteBookmark } from "../../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
+import { SwitchBookmark } from "../bookmark/SwitchBookmark";
 
-export const BookmarkLists = ({ bookmark }) => {
+export const BookmarkLists = () => {
+  const products = useSelector((state) => state.productsReducer?.products);
+  const bookmark = products.filter((cur) => cur.isBookmark);
+
   const [mark, setMark] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
   const dispatch = useDispatch();
 
-  const handldeleteBookmark = (id) => {
-    dispatch(deleteBookmark(id));
-  };
-
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
 
-  useEffect(() => {
-    const uniqueMark = [];
-    const bookmarkCopy = [...bookmark];
+  const getRandomElements = (arr, numElements) => {
+    var elements = [];
+    var currentIndex = arr.length;
+    var temporaryValue, randomIndex;
 
-    while (uniqueMark.length < 4 && bookmarkCopy.length > 0) {
-      const randomIndex = Math.floor(Math.random() * bookmarkCopy.length);
-      const randomProduct = bookmarkCopy.splice(randomIndex, 1)[0];
-      uniqueMark.push(randomProduct);
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = arr[currentIndex];
+      arr[currentIndex] = arr[randomIndex];
+      arr[randomIndex] = temporaryValue;
     }
 
-    setMark(uniqueMark);
-  }, [bookmark]);
+    for (var i = 0; i < numElements; i++) {
+      elements.push(arr[i]);
+    }
 
-  // console.log(bookmark);
-  // console.log(mark);
+    return elements;
+  };
+
+  const [bookmarkList, setBookmarkList] = useState([]);
+  useEffect(() => {
+    // const uniqueMark = [];
+    // const bookmarkCopy = [...products];
+
+    // while (uniqueMark.length < 4 && bookmarkCopy.length > 0) {
+    //   const randomIndex = Math.floor(Math.random() * bookmarkCopy.length);
+    //   const randomProduct = bookmarkCopy.splice(randomIndex, 1)[0];
+    //   uniqueMark.push(randomProduct);
+    // }
+
+    // setMark(uniqueMark);
+
+    // if (bookmark.length < 4)
+    //   for (let i = 0; i < bookmark.length; i++) {
+    //     console.log(i, bookmarkList);
+    //     setBookmarkList([
+    //       ...bookmarkList,
+    //       bookmark[Math.floor(Math.random() * bookmark.length)],
+    //     ]);
+    //   }
+    // else {
+    //   setBookmarkList([
+    //     bookmark[Math.floor(Math.random() * bookmark.length)],
+    //     bookmark[Math.floor(Math.random() * bookmark.length)],
+    //     bookmark[Math.floor(Math.random() * bookmark.length)],
+    //     bookmark[Math.floor(Math.random() * bookmark.length)],
+    //   ]);
+    // }
+
+    if (bookmark.length < 4) {
+      setBookmarkList(getRandomElements(bookmark, bookmark.length));
+    } else {
+      setBookmarkList(getRandomElements(bookmark, 4));
+    }
+  }, [products]);
+
   return (
     <ItemListsMain>
       <MainTitle>
@@ -56,9 +98,7 @@ export const BookmarkLists = ({ bookmark }) => {
                   <ExitBtn onClick={() => handleOpenModal(modalData)} />
                 </ModalTop>
                 <ModalBottom>
-                  <ModalBookMark
-                    onClick={() => handldeleteBookmark(modalData.id)}
-                  />
+                  <SwitchModalBookmark product={modalData} />
                   <ModalItemTitle>
                     {modalData.type === "Brand" ? modalData.brand_name : null}
                     {modalData.type === "Category"
@@ -76,8 +116,8 @@ export const BookmarkLists = ({ bookmark }) => {
         </ModalContainer>
       ) : null}
       <ItemContainer>
-        {mark.map((product, idx) => (
-          <Items key={`${idx} + ${product}`}>
+        {bookmarkList.map((product, idx) => (
+          <Items key={product.id}>
             {product.type === "Brand" && (
               <>
                 <ItemImg
@@ -85,9 +125,7 @@ export const BookmarkLists = ({ bookmark }) => {
                   backgroundImg={product.brand_image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
+                    <SwitchBookmark product={product} />
                   </div>
                 </ItemImg>
                 {/* 컴포넌트화 시켜보기 */}
@@ -109,9 +147,7 @@ export const BookmarkLists = ({ bookmark }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
+                    <SwitchBookmark product={product} />
                   </div>
                 </ItemImg>
 
@@ -125,9 +161,7 @@ export const BookmarkLists = ({ bookmark }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
+                    <SwitchBookmark product={product} />
                   </div>
                 </ItemImg>
 
@@ -149,9 +183,7 @@ export const BookmarkLists = ({ bookmark }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
+                    <SwitchBookmark product={product} />
                   </div>
                 </ItemImg>
                 <ItemTitle>{product.title}</ItemTitle>
@@ -191,15 +223,8 @@ const ItemContainer = styled.div`
   padding: 0 76px;
 `;
 
-const Items = styled.section``;
-
-const BookmarkOn = styled.img.attrs({
-  src: `${iconOn}`,
-})`
-  cursor: pointer;
-
-  width: 24px;
-  height: 24px;
+const Items = styled.section`
+  width: 264px;
 `;
 
 const ItemDetail = styled.div`
@@ -300,7 +325,6 @@ const ExitBtn = styled.img.attrs({
   }
 `;
 
-const ModalBookMark = styled(BookmarkOn)``;
 const ModalItemTitle = styled(ItemTitle)`
   color: #ffffff;
   font-weight: 700;

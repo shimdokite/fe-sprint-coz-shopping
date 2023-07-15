@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import iconOn from "../../assets/iconOn.png";
+
 import closed from "../../assets/closed.png";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteBookmark } from "../../actions";
+import { SwitchBookmark } from "./SwitchBookmark";
+import { SwitchModalBookmark } from "./SwitchModalBookmark";
 
 export const BookmarkList = ({ tabs }) => {
   // 자식 컴포넌트에서 useSelector 로 state 뽑아오기
-  const item = useSelector((state) => state.productsReducer?.bookmark);
+  const item = useSelector((state) => state.productsReducer?.products);
   const [filteredItem, setFilterdItem] = useState(item);
 
   useEffect(() => {
@@ -36,22 +37,19 @@ export const BookmarkList = ({ tabs }) => {
         setFilterdItem(item);
         break;
     }
-  }, [tabs]);
+  }, [tabs, item]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
   const dispatch = useDispatch();
 
-  const handldeleteBookmark = (id) => {
-    dispatch(deleteBookmark(id));
-  };
-
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
 
+  console.log(filteredItem.filter((cur) => cur.isBookmark));
   return (
     <ItemListsMain>
       {isOpen ? (
@@ -69,9 +67,7 @@ export const BookmarkList = ({ tabs }) => {
                   <ExitBtn onClick={() => handleOpenModal(modalData)} />
                 </ModalTop>
                 <ModalBottom>
-                  <ModalBookMark
-                    onClick={() => handldeleteBookmark(modalData.id)}
-                  />
+                  <SwitchModalBookmark product={modalData} />
                   <ModalItemTitle>
                     {modalData.type === "Brand" ? modalData.brand_name : null}
                     {modalData.type === "Category"
@@ -89,90 +85,84 @@ export const BookmarkList = ({ tabs }) => {
         </ModalContainer>
       ) : null}
       <ItemContainer>
-        {filteredItem.map((product, idx) => (
-          <Items key={`${idx} + ${product}`}>
-            {product.type === "Brand" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.brand_image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
-                  </div>
-                </ItemImg>
-                {/* 컴포넌트화 시켜보기 */}
-                <ItemDetail>
-                  <ItemTitle>{product.brand_name}</ItemTitle>
-                  <ItemFollow>
-                    <div className="follwer_title">관심 고객수</div>
-                    <div className="product_follwer">
-                      {Number(product.follower).toLocaleString()}
+        {filteredItem
+          .filter((cur) => cur.isBookmark)
+          .map((product, idx) => (
+            <Items key={product.id}>
+              {product.type === "Brand" && (
+                <>
+                  <ItemImg
+                    onClick={() => handleOpenModal(product)}
+                    backgroundImg={product.brand_image_url}
+                  >
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <SwitchBookmark product={product} />
                     </div>
-                  </ItemFollow>
-                </ItemDetail>
-              </>
-            )}
-            {product.type === "Category" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
-                  </div>
-                </ItemImg>
+                  </ItemImg>
+                  {/* 컴포넌트화 시켜보기 */}
+                  <ItemDetail>
+                    <ItemTitle>{product.brand_name}</ItemTitle>
+                    <ItemFollow>
+                      <div className="follwer_title">관심 고객수</div>
+                      <div className="product_follwer">
+                        {Number(product.follower).toLocaleString()}
+                      </div>
+                    </ItemFollow>
+                  </ItemDetail>
+                </>
+              )}
+              {product.type === "Category" && (
+                <>
+                  <ItemImg
+                    onClick={() => handleOpenModal(product)}
+                    backgroundImg={product.image_url}
+                  >
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <SwitchBookmark product={product} />
+                    </div>
+                  </ItemImg>
 
-                <ItemTitle># {product.title}</ItemTitle>
-              </>
-            )}
-            {product.type === "Product" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
-                  </div>
-                </ItemImg>
+                  <ItemTitle># {product.title}</ItemTitle>
+                </>
+              )}
+              {product.type === "Product" && (
+                <>
+                  <ItemImg
+                    onClick={() => handleOpenModal(product)}
+                    backgroundImg={product.image_url}
+                  >
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <SwitchBookmark product={product} />
+                    </div>
+                  </ItemImg>
 
-                <ItemDetail>
+                  <ItemDetail>
+                    <ItemTitle>{product.title}</ItemTitle>
+                    <ItemPrice>
+                      <div className="discount">
+                        {product.discountPercentage}%
+                      </div>
+                      <div> {Number(product.price).toLocaleString()}원</div>
+                    </ItemPrice>
+                  </ItemDetail>
+                </>
+              )}
+              {product.type === "Exhibition" && (
+                <>
+                  <ItemImg
+                    onClick={() => handleOpenModal(product)}
+                    backgroundImg={product.image_url}
+                  >
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <SwitchBookmark product={product} />
+                    </div>
+                  </ItemImg>
                   <ItemTitle>{product.title}</ItemTitle>
-                  <ItemPrice>
-                    <div className="discount">
-                      {product.discountPercentage}%
-                    </div>
-                    <div> {Number(product.price).toLocaleString()}원</div>
-                  </ItemPrice>
-                </ItemDetail>
-              </>
-            )}
-            {product.type === "Exhibition" && (
-              <>
-                <ItemImg
-                  onClick={() => handleOpenModal(product)}
-                  backgroundImg={product.image_url}
-                >
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOn
-                      onClick={() => handldeleteBookmark(product.id)}
-                    />
-                  </div>
-                </ItemImg>
-                <ItemTitle>{product.title}</ItemTitle>
-                <ItemSubTitle>{product.sub_title}</ItemSubTitle>
-              </>
-            )}
-          </Items>
-        ))}
+                  <ItemSubTitle>{product.sub_title}</ItemSubTitle>
+                </>
+              )}
+            </Items>
+          ))}
       </ItemContainer>
     </ItemListsMain>
   );
@@ -198,15 +188,6 @@ const ItemContainer = styled.div`
 
 const Items = styled.div`
   width: 264px;
-`;
-
-const BookmarkOn = styled.img.attrs({
-  src: `${iconOn}`,
-})`
-  cursor: pointer;
-
-  width: 24px;
-  height: 24px;
 `;
 
 const ItemDetail = styled.div`
@@ -308,7 +289,6 @@ const ExitBtn = styled.img.attrs({
   }
 `;
 
-const ModalBookMark = styled(BookmarkOn)``;
 const ModalItemTitle = styled(ItemTitle)`
   color: #ffffff;
   font-weight: 700;

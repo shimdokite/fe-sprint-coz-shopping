@@ -19,7 +19,7 @@ const DropdownMenu = () => {
         <Menu isDropped={myPageIsOpen}>
           <Ul>
             <Li>
-              <div>ooo님, 안녕하세요!</div>
+              <div>dokite님, 안녕하세요!</div>
             </Li>
             <Li>
               <LinkWrapper to="/products/list">

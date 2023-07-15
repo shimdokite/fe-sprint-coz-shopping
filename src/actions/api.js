@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getProductsData, addToBookmark } from ".";
+import { getProductsData } from ".";
 
 export const getProducts = () => {
   return async (dispatch) => {
