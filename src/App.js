@@ -8,6 +8,7 @@ import { Footer } from "./components/footer/Footer";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getProducts } from "./actions/api";
+import { Toast } from "./components/toast/Toast";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <Toast />
       <Routes>
         <Route path="/" element={<Main />}></Route>
         <Route path="/products/list" element={<Products />}></Route>

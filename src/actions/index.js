@@ -8,9 +8,9 @@ export const getProductsData = (products) => {
   };
 };
 
-export const changeBookmark = (id) => {
+export const changeBookmark = (product) => {
   return {
     type: CHANGE_BOOKMARK,
-    payload: id,
+    payload: product,
   };
 };

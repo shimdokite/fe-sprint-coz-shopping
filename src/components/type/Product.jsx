@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import closed from "../../assets/closed.png";
 import { useSelector } from "react-redux";
@@ -6,9 +6,13 @@ import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
 
 export const Product = ({ tabs }) => {
-  // 자식 컴포넌트에서 useSelector 로 state 뽑아오기
+  const [count, setCount] = useState(2);
+  const countRef = useRef(count);
+
   const item = useSelector((state) => state.productsReducer?.products);
-  const [filteredItem, setFilterdItem] = useState(item);
+
+  const [sliceItem, setSliceItem] = useState(item?.slice(0, count * 10));
+  const [filteredItem, setFilterdItem] = useState(sliceItem);
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
 
@@ -16,11 +20,38 @@ export const Product = ({ tabs }) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
+  /**
+   * item > 100개를 기준으로
+   *
+   * sliceItem > item을 n개로 자른 녀석!
+   *
+   * item을 기준으로 filteredItem을 set 하는 중 > sliceItem을 기준으로 filteredItem을 set 하는 중
+   */
+
+  useEffect(() => {
+    if (modalData) {
+      filteredItem.forEach(
+        (cur) => cur.id === modalData.id && setModalData(cur)
+      );
+    }
+  }, [filteredItem]);
+
+  useEffect(() => {
+    countRef.current = count;
+  }, [count]);
+
+  useEffect(() => {
+    if (count - 1 * 10 < item.length) {
+      setSliceItem(item.slice(0, count * 10));
+    } else {
+      setSliceItem(item.slice(0, item.length));
+    }
+  }, [item, count]);
 
   useEffect(() => {
     switch (tabs) {
       case "All":
-        setFilterdItem(item);
+        setFilterdItem(sliceItem);
         break;
 
       case "Product":
@@ -40,10 +71,42 @@ export const Product = ({ tabs }) => {
         break;
 
       default:
-        setFilterdItem(item);
+        setFilterdItem(sliceItem);
         break;
     }
-  }, [tabs]);
+  }, [tabs, sliceItem, item]);
+
+  // 무한 스크롤
+
+  const targetRef = useRef(null);
+
+  const handleIntersection = (entries) => {
+    const [entry] = entries;
+
+    if (entry.isIntersecting) {
+      console.log("로오오오오오오딩!");
+
+      setCount((prevCount) => prevCount + 1);
+      // count++;
+      console.log(count);
+    }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5,
+    });
+
+    if (targetRef.current) {
+      observer.observe(targetRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <ItemListsMain>
@@ -80,7 +143,7 @@ export const Product = ({ tabs }) => {
         </ModalContainer>
       ) : null}
       <ItemContainer>
-        {filteredItem.map((product, idx) => (
+        {filteredItem?.map((product, idx) => (
           <Items key={`${idx} + ${product}`}>
             {product.type === "Brand" && (
               <>
@@ -157,6 +220,8 @@ export const Product = ({ tabs }) => {
           </Items>
         ))}
       </ItemContainer>
+
+      <p ref={targetRef}></p>
     </ItemListsMain>
   );
 };
@@ -174,6 +239,7 @@ const ItemContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
+  width: 1500px;
 
   margin: 20px;
   padding: 0 76px;

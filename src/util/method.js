@@ -1,6 +1,6 @@
 export const getRandomElements = (arr, numElements) => {
   const elements = [];
-  let currentIndex = arr.length;
+  let currentIndex = arr?.length;
   let temporaryValue, randomIndex;
 
   while (0 !== currentIndex) {
