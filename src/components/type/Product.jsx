@@ -20,7 +20,6 @@ export const Product = ({ tabs }) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
-
   /**
    * item > 100개를 기준으로
    *

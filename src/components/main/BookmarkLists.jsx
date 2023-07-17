@@ -11,13 +11,19 @@ export const BookmarkLists = () => {
   const bookmark = products.filter((cur) => cur.isBookmark);
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
+  const [bookmarkList, setBookmarkList] = useState([]);
 
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
 
-  const [bookmarkList, setBookmarkList] = useState([]);
+  useEffect(() => {
+    if (modalData) {
+      products.forEach((cur) => cur.id === modalData.id && setModalData(cur));
+    }
+  }, [products]);
+
   useEffect(() => {
     if (bookmark.length < 4) {
       setBookmarkList(getRandomElements(bookmark, bookmark.length));
