@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import useDetectClose from "../hooks/useDetectClose";
+import useDetectClose from "../../hooks/useDetectClose";
 import { Link } from "react-router-dom";
 
 const DropdownMenu = () => {
@@ -19,7 +19,7 @@ const DropdownMenu = () => {
         <Menu isDropped={myPageIsOpen}>
           <Ul>
             <Li>
-              <div>ooo님, 안녕하세요!</div>
+              <div>dokite님, 안녕하세요!</div>
             </Li>
             <Li>
               <LinkWrapper to="/products/list">

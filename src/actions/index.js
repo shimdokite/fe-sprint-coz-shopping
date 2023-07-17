@@ -1,6 +1,5 @@
 export const GET_PRODUCTS_DATA = "GET_PRODUCTS_DATA";
-export const ADD_TO_BOOKMARK = "ADD_TO_BOOKMARK";
-export const DELETE_BOOKMARK = "DELETE_BOOKMARK";
+export const CHANGE_BOOKMARK = "CHANGE_BOOKMARK";
 
 export const getProductsData = (products) => {
   return {
@@ -9,16 +8,9 @@ export const getProductsData = (products) => {
   };
 };
 
-export const addToBookmark = (id) => {
+export const changeBookmark = (id) => {
   return {
-    type: ADD_TO_BOOKMARK,
-    payload: id,
-  };
-};
-
-export const deleteBookmark = (id) => {
-  return {
-    type: DELETE_BOOKMARK,
+    type: CHANGE_BOOKMARK,
     payload: id,
   };
 };

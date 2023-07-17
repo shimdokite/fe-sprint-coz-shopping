@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import iconOff from "../assets/iconOff.png";
-import closed from "../assets/closed.png";
-import { useDispatch } from "react-redux";
-import { addToBookmark } from "../actions";
+import closed from "../../assets/closed.png";
+import { useSelector } from "react-redux";
+import { SwitchBookmark } from "../bookmark/SwitchBookmark";
+import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
+import { getRandomElements } from "../../util/method";
 
-export const ItemLists = ({ item }) => {
+export const ItemLists = () => {
+  const products = useSelector((state) => state.productsReducer?.products);
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState();
-
-  const dispatch = useDispatch();
-
-  const handleBookmark = (id) => {
-    dispatch(addToBookmark(id));
-  };
+  const [item, setItem] = useState([]);
 
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);
     setModalData(product);
   };
-  // console.log(modalData);
-  // console.log(isOpen);
+
+  useEffect(() => {
+    setItem(getRandomElements(products, 4));
+  }, [products]);
 
   return (
     <ItemListsMain>
@@ -42,7 +41,7 @@ export const ItemLists = ({ item }) => {
                   <ExitBtn onClick={() => handleOpenModal(modalData)} />
                 </ModalTop>
                 <ModalBottom>
-                  <ModalBookMark onClick={() => handleBookmark(modalData.id)} />
+                  <SwitchModalBookmark product={modalData} />
                   <ModalItemTitle>
                     {modalData.type === "Brand" ? modalData.brand_name : null}
                     {modalData.type === "Category"
@@ -69,7 +68,7 @@ export const ItemLists = ({ item }) => {
                   backgroundImg={product.brand_image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                    <SwitchBookmark product={product} />
                   </div>
                 </ItemImg>
                 {/* 컴포넌트화 시켜보기 */}
@@ -91,7 +90,7 @@ export const ItemLists = ({ item }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                    <SwitchBookmark product={product} />
                   </div>
                 </ItemImg>
 
@@ -105,7 +104,7 @@ export const ItemLists = ({ item }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                    <SwitchBookmark product={product} />
                   </div>
                 </ItemImg>
 
@@ -127,7 +126,7 @@ export const ItemLists = ({ item }) => {
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
-                    <BookmarkOff onClick={() => handleBookmark(product.id)} />
+                    <SwitchBookmark product={product} />
                   </div>
                 </ItemImg>
                 <ItemTitle>{product.title}</ItemTitle>
@@ -167,15 +166,8 @@ const ItemContainer = styled.div`
   padding: 0 76px;
 `;
 
-const Items = styled.section``;
-
-const BookmarkOff = styled.img.attrs({
-  src: `${iconOff}`,
-})`
-  cursor: pointer;
-
-  width: 24px;
-  height: 24px;
+const Items = styled.section`
+  width: 264px;
 `;
 
 const ItemDetail = styled.div`
@@ -276,7 +268,6 @@ const ExitBtn = styled.img.attrs({
   }
 `;
 
-const ModalBookMark = styled(BookmarkOff)``;
 const ModalItemTitle = styled(ItemTitle)`
   color: #ffffff;
   font-weight: 700;
