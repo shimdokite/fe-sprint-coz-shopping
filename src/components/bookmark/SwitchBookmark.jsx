@@ -19,11 +19,9 @@ export const SwitchBookmark = ({ product }) => {
   }, [products]);
 
   return (
-    <>
-      <BookmarkContainter onClick={() => handleChangeBookmark(product.id)}>
-        {curItem.isBookmark ? <BookmarkOn /> : <BookmarkOff />}
-      </BookmarkContainter>
-    </>
+    <BookmarkContainter onClick={() => handleChangeBookmark(product.id)}>
+      {curItem.isBookmark ? <BookmarkOn /> : <BookmarkOff />}
+    </BookmarkContainter>
   );
 };
 

@@ -19,34 +19,6 @@ export const BookmarkLists = () => {
 
   const [bookmarkList, setBookmarkList] = useState([]);
   useEffect(() => {
-    // const uniqueMark = [];
-    // const bookmarkCopy = [...products];
-
-    // while (uniqueMark.length < 4 && bookmarkCopy.length > 0) {
-    //   const randomIndex = Math.floor(Math.random() * bookmarkCopy.length);
-    //   const randomProduct = bookmarkCopy.splice(randomIndex, 1)[0];
-    //   uniqueMark.push(randomProduct);
-    // }
-
-    // setMark(uniqueMark);
-
-    // if (bookmark.length < 4)
-    //   for (let i = 0; i < bookmark.length; i++) {
-    //     console.log(i, bookmarkList);
-    //     setBookmarkList([
-    //       ...bookmarkList,
-    //       bookmark[Math.floor(Math.random() * bookmark.length)],
-    //     ]);
-    //   }
-    // else {
-    //   setBookmarkList([
-    //     bookmark[Math.floor(Math.random() * bookmark.length)],
-    //     bookmark[Math.floor(Math.random() * bookmark.length)],
-    //     bookmark[Math.floor(Math.random() * bookmark.length)],
-    //     bookmark[Math.floor(Math.random() * bookmark.length)],
-    //   ]);
-    // }
-
     if (bookmark.length < 4) {
       setBookmarkList(getRandomElements(bookmark, bookmark.length));
     } else {
