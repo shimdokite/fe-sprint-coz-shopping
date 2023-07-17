@@ -3,15 +3,18 @@ import styled, { keyframes, css } from "styled-components";
 import iconOn from "../../assets/iconOn.png";
 import iconOff from "../../assets/iconOff.png";
 import { useSelector } from "react-redux";
+// import iconOff from "../../assets/iconOff.png";
 
 export const Toast = () => {
   const curToast = useSelector((state) => state.productsReducer.toast);
+  // console.log(curToast);
   const [toast, setToast] = useState([]);
 
   useEffect(() => {
+    // 토스트가 보여진 후 2초 뒤에 자동으로 사라지도록 설정
     const timer = setTimeout(() => {
       setToast(toast.slice(1, toast.length));
-    }, 1500);
+    }, 1200);
 
     return () => clearTimeout(timer);
   }, [toast]);
@@ -22,7 +25,7 @@ export const Toast = () => {
       setToast([
         ...toast,
         <ToastWrapper>
-          <ToastCheckImg1 />
+          <ToastCheckImg />
           <ToastDescription>북마크가 추가되었습니다.</ToastDescription>
         </ToastWrapper>,
       ]);
@@ -58,12 +61,12 @@ const ToastContainer = styled.div`
   right: 10px;
   bottom: 10px;
 
-  /* ${(props) =>
+  ${(props) =>
     props.isFading &&
     css`
       opacity: 0;
       transform: opacity 1.5s ease-in-out;
-    `} */
+    `}
 `;
 
 const ToastWrapper = styled.div`
@@ -83,7 +86,7 @@ const ToastWrapper = styled.div`
   background: #fff;
 `;
 
-const ToastCheckImg1 = styled.img.attrs({
+const ToastCheckImg = styled.img.attrs({
   src: `${iconOn}`,
 })`
   /* cursor: pointer; */

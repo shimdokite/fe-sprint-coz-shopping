@@ -85,9 +85,10 @@ export const Product = ({ tabs }) => {
     const [entry] = entries;
 
     if (entry.isIntersecting) {
-      console.log("loading");
+      console.log("로오오오오오오딩!");
 
       setCount((prevCount) => prevCount + 1);
+      // count++;
       console.log(count);
     }
   };

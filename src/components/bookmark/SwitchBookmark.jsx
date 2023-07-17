@@ -11,7 +11,7 @@ export const SwitchBookmark = ({ product }) => {
   const [curItem, setCurItem] = useState(product);
 
   const handleChangeBookmark = () => {
-    dispatch(changeBookmark(product.id));
+    dispatch(changeBookmark(product));
   };
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export const SwitchBookmark = ({ product }) => {
   }, [products]);
 
   return (
-    <BookmarkContainter onClick={() => handleChangeBookmark(product.id)}>
+    <BookmarkContainter onClick={() => handleChangeBookmark(product)}>
       {curItem.isBookmark ? <BookmarkOn /> : <BookmarkOff />}
     </BookmarkContainter>
   );
