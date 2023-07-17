@@ -231,6 +231,7 @@ const ItemContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
+  width: 1500px;
 
   margin: 20px;
   padding: 0 76px;
