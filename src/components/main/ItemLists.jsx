@@ -24,7 +24,9 @@ export const ItemLists = () => {
   };
 
   useEffect(() => {
-    setItem(getRandomElements(products, 4));
+    if (products) {
+      setItem(getRandomElements(products, 4));
+    }
   }, [products]);
 
   return (

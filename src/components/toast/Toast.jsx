@@ -17,7 +17,7 @@ export const Toast = () => {
   }, [toast]);
 
   useEffect(() => {
-    if (curToast === null) return;
+    if (!curToast) return;
     else if (curToast.isBookmark) {
       setToast([
         ...toast,

@@ -19,16 +19,14 @@ export const BookmarkLists = () => {
   };
 
   useEffect(() => {
-    if (modalData) {
-      products.forEach((cur) => cur.id === modalData.id && setModalData(cur));
-    }
-  }, [products]);
-
-  useEffect(() => {
     if (bookmark.length < 4) {
       setBookmarkList(getRandomElements(bookmark, bookmark.length));
     } else {
       setBookmarkList(getRandomElements(bookmark, 4));
+    }
+
+    if (modalData) {
+      products.forEach((cur) => cur.id === modalData.id && setModalData(cur));
     }
   }, [products]);
 
