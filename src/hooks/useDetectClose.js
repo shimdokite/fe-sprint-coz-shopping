@@ -22,7 +22,7 @@ const useDetectClose = (initialState) => {
     return () => {
       window.removeEventListener("click", onClick);
     };
-  }, [isOpen]);
+  }, []);
 
   return [isOpen, ref, removeHandler];
 };

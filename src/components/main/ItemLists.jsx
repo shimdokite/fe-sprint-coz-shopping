@@ -12,12 +12,6 @@ export const ItemLists = () => {
   const [modalData, setModalData] = useState();
   const [item, setItem] = useState([]);
 
-  useEffect(() => {
-    if (modalData) {
-      products.forEach((cur) => cur.id === modalData.id && setModalData(cur));
-    }
-  }, [products]);
-
   const handleOpenModal = (product) => {
     setIsOpen(!isOpen);
     setModalData(product);
@@ -26,6 +20,10 @@ export const ItemLists = () => {
   useEffect(() => {
     if (products) {
       setItem(getRandomElements(products, 4));
+    }
+
+    if (modalData) {
+      products.forEach((cur) => cur.id === modalData.id && setModalData(cur));
     }
   }, [products]);
 
