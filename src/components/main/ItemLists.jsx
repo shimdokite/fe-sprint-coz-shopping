@@ -18,6 +18,20 @@ export const ItemLists = () => {
   };
 
   useEffect(() => {
+    // 모달이 열릴 때 body에 스크롤 방지 스타일을 추가
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    // 컴포넌트가 언마운트될 때 스타일을 원래대로 복구
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     if (products) {
       setItem(getRandomElements(products, 4));
     }
