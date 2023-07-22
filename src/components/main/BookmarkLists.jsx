@@ -19,16 +19,28 @@ export const BookmarkLists = () => {
   };
 
   useEffect(() => {
-    if (modalData) {
-      products.forEach((cur) => cur.id === modalData.id && setModalData(cur));
+    // 모달이 열릴 때 body에 스크롤 방지 스타일을 추가
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
     }
-  }, [products]);
+
+    // 컴포넌트가 언마운트될 때 스타일을 원래대로 복구
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     if (bookmark.length < 4) {
       setBookmarkList(getRandomElements(bookmark, bookmark.length));
     } else {
       setBookmarkList(getRandomElements(bookmark, 4));
+    }
+
+    if (modalData) {
+      products.forEach((cur) => cur.id === modalData.id && setModalData(cur));
     }
   }, [products]);
 
