@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import iconOn from "../../assets/iconOn.png";
-import iconOff from "../../assets/iconOff.png";
 import { useDispatch, useSelector } from "react-redux";
 import { changeBookmark } from "../../actions";
+import * as b from "../../style/Bookmark";
 
 export const SwitchBookmark = ({ product }) => {
   const dispatch = useDispatch();
@@ -19,28 +17,8 @@ export const SwitchBookmark = ({ product }) => {
   }, [products]);
 
   return (
-    <BookmarkContainter onClick={() => handleChangeBookmark(product)}>
-      {curItem.isBookmark ? <BookmarkOn /> : <BookmarkOff />}
-    </BookmarkContainter>
+    <b.BookmarkContainter onClick={() => handleChangeBookmark(product)}>
+      {curItem.isBookmark ? <b.BookmarkOn /> : <b.BookmarkOff />}
+    </b.BookmarkContainter>
   );
 };
-
-const BookmarkContainter = styled.div``;
-
-const BookmarkOn = styled.img.attrs({
-  src: `${iconOn}`,
-})`
-  cursor: pointer;
-
-  width: 24px;
-  height: 24px;
-`;
-
-const BookmarkOff = styled.img.attrs({
-  src: `${iconOff}`,
-})`
-  cursor: pointer;
-
-  width: 24px;
-  height: 24px;
-`;

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import closed from "../../assets/closed.png";
 import { useSelector } from "react-redux";
 import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
+import * as l from "../../style/Lists";
 
 export const Product = ({ tabs }) => {
   const [count, setCount] = useState(2);
@@ -124,24 +123,24 @@ export const Product = ({ tabs }) => {
   }, []);
 
   return (
-    <ItemListsMain>
+    <l.ItemListsMain>
       {isOpen ? (
-        <ModalContainer onClick={() => handleOpenModal(modalData)}>
-          <ModalBackdrop>
-            <ModalView onClick={(e) => e.stopPropagation()}>
-              <ModalImg
+        <l.ModalContainer onClick={() => handleOpenModal(modalData)}>
+          <l.ModalBackdrop>
+            <l.ModalView onClick={(e) => e.stopPropagation()}>
+              <l.ModalImg
                 backgroundImg={
                   modalData.brand_image_url
                     ? modalData.brand_image_url
                     : modalData.image_url
                 }
               >
-                <ModalTop>
-                  <ExitBtn onClick={() => handleOpenModal(modalData)} />
-                </ModalTop>
-                <ModalBottom>
+                <l.ModalTop>
+                  <l.ExitBtn onClick={() => handleOpenModal(modalData)} />
+                </l.ModalTop>
+                <l.ModalBottom>
                   <SwitchModalBookmark product={modalData} />
-                  <ModalItemTitle>
+                  <l.ModalItemTitle>
                     {modalData.type === "Brand" ? modalData.brand_name : null}
                     {modalData.type === "Category"
                       ? `# ${modalData.title}`
@@ -150,245 +149,92 @@ export const Product = ({ tabs }) => {
                     (modalData.type === "Exhibition")
                       ? modalData.title
                       : null}
-                  </ModalItemTitle>
-                </ModalBottom>
-              </ModalImg>
-            </ModalView>
-          </ModalBackdrop>
-        </ModalContainer>
+                  </l.ModalItemTitle>
+                </l.ModalBottom>
+              </l.ModalImg>
+            </l.ModalView>
+          </l.ModalBackdrop>
+        </l.ModalContainer>
       ) : null}
-      <ItemContainer>
+      <l.ItemContainerB>
         {filteredItem?.map((product, idx) => (
-          <Items key={`${idx} + ${product}`}>
+          <l.Items key={`${idx} + ${product}`}>
             {product.type === "Brand" && (
               <>
-                <ItemImg
+                <l.ItemImg
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.brand_image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
                     <SwitchBookmark product={product} />
                   </div>
-                </ItemImg>
-                {/* 컴포넌트화 시켜보기 */}
-                <ItemDetail>
-                  <ItemTitle>{product.brand_name}</ItemTitle>
-                  <ItemFollow>
+                </l.ItemImg>
+                <l.ItemDetail>
+                  <l.ItemTitleB>{product.brand_name}</l.ItemTitleB>
+                  <l.ItemFollow>
                     <div className="follwer_title">관심 고객수</div>
                     <div className="product_follwer">
                       {Number(product.follower).toLocaleString()}
                     </div>
-                  </ItemFollow>
-                </ItemDetail>
+                  </l.ItemFollow>
+                </l.ItemDetail>
               </>
             )}
             {product.type === "Category" && (
               <>
-                <ItemImg
+                <l.ItemImg
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
                     <SwitchBookmark product={product} />
                   </div>
-                </ItemImg>
+                </l.ItemImg>
 
-                <ItemTitle># {product.title}</ItemTitle>
+                <l.ItemTitleB># {product.title}</l.ItemTitleB>
               </>
             )}
             {product.type === "Product" && (
               <>
-                <ItemImg
+                <l.ItemImg
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
                     <SwitchBookmark product={product} />
                   </div>
-                </ItemImg>
+                </l.ItemImg>
 
-                <ItemDetail>
-                  <ItemTitle>{product.title}</ItemTitle>
-                  <ItemPrice>
+                <l.ItemDetail>
+                  <l.ItemTitleB>{product.title}</l.ItemTitleB>
+                  <l.ItemPrice>
                     <div className="discount">
                       {product.discountPercentage}%
                     </div>
                     <div> {Number(product.price).toLocaleString()}원</div>
-                  </ItemPrice>
-                </ItemDetail>
+                  </l.ItemPrice>
+                </l.ItemDetail>
               </>
             )}
             {product.type === "Exhibition" && (
               <>
-                <ItemImg
+                <l.ItemImg
                   onClick={() => handleOpenModal(product)}
                   backgroundImg={product.image_url}
                 >
                   <div onClick={(e) => e.stopPropagation()}>
                     <SwitchBookmark product={product} />
                   </div>
-                </ItemImg>
-                <ItemTitle>{product.title}</ItemTitle>
-                <ItemSubTitle>{product.sub_title}</ItemSubTitle>
+                </l.ItemImg>
+                <l.ItemTitleB>{product.title}</l.ItemTitleB>
+                <l.ItemSubTitle>{product.sub_title}</l.ItemSubTitle>
               </>
             )}
-          </Items>
+          </l.Items>
         ))}
-      </ItemContainer>
+      </l.ItemContainerB>
 
       <p ref={targetRef}></p>
-    </ItemListsMain>
+    </l.ItemListsMain>
   );
 };
-
-/* 상품 리스트 */
-const ItemListsMain = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-const ItemContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 24px;
-  width: 1500px;
-
-  margin: 20px;
-  padding: 0 76px;
-`;
-
-const Items = styled.div`
-  width: 264px;
-`;
-
-const ItemDetail = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ItemImg = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  padding: 10px;
-  cursor: pointer;
-
-  background-image: url(${(props) => props.backgroundImg});
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 264px;
-  height: 210px;
-
-  border-radius: 12px;
-`;
-
-const ItemTitle = styled.div`
-  font-weight: 800;
-  margin: 5px 0 0 0;
-  letter-spacing: -1.3px;
-`;
-
-const ItemFollow = styled.div`
-  margin: 5px 0 0 0;
-  > .follwer_title {
-    font-weight: 800;
-  }
-  > .product_follwer {
-    text-align: end;
-  }
-`;
-
-const ItemSubTitle = styled.div``;
-
-const ItemPrice = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 5px 0 0 0;
-
-  > .discount {
-    text-align: end;
-    color: #452cdd;
-    font-weight: 800;
-  }
-`;
-
-/* 모달 */
-const ModalContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ModalBackdrop = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  background-color: rgba(0, 0, 0, 0.4);
-`;
-
-const ModalView = styled.div.attrs((props) => ({
-  role: "dialog",
-}))`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ExitBtn = styled.img.attrs({
-  src: `${closed}`,
-})`
-  cursor: pointer;
-  display: flex;
-  align-items: flex-end;
-
-  background: none;
-  border: none;
-
-  color: white;
-
-  width: 24px;
-  height: 24px;
-  &:hover {
-    color: #452cdd;
-  }
-`;
-
-const ModalItemTitle = styled(ItemTitle)`
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 24px;
-`;
-
-const ModalImg = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-
-  background-image: url(${(props) => props.backgroundImg});
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 744px;
-  height: 480px;
-  border-radius: 10px;
-`;
-
-const ModalTop = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-const ModalBottom = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-`;
