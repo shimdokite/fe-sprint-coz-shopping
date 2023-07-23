@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
-import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
 import { getRandomElements } from "../../util/method";
-
+import Modal from "../modal/Modal";
 import * as l from "../../style/Lists";
 
 export const ItemLists = () => {
@@ -47,38 +46,11 @@ export const ItemLists = () => {
       <l.MainTitle>
         <div className="item_list">상품 리스트</div>
       </l.MainTitle>
-      {isOpen ? (
-        <l.ModalContainer onClick={() => handleOpenModal(modalData)}>
-          <l.ModalBackdrop>
-            <l.ModalView onClick={(e) => e.stopPropagation()}>
-              <l.ModalImg
-                backgroundImg={
-                  modalData.brand_image_url
-                    ? modalData.brand_image_url
-                    : modalData.image_url
-                }
-              >
-                <l.ModalTop>
-                  <l.ExitBtn onClick={() => handleOpenModal(modalData)} />
-                </l.ModalTop>
-                <l.ModalBottom>
-                  <SwitchModalBookmark product={modalData} />
-                  <l.ModalItemTitle>
-                    {modalData.type === "Brand" ? modalData.brand_name : null}
-                    {modalData.type === "Category"
-                      ? `# ${modalData.title}`
-                      : null}
-                    {(modalData.type === "Product") |
-                    (modalData.type === "Exhibition")
-                      ? modalData.title
-                      : null}
-                  </l.ModalItemTitle>
-                </l.ModalBottom>
-              </l.ModalImg>
-            </l.ModalView>
-          </l.ModalBackdrop>
-        </l.ModalContainer>
-      ) : null}
+      <Modal
+        isOpen={isOpen}
+        modalData={modalData}
+        handleOpenModal={handleOpenModal}
+      />
       <l.ItemContainer>
         {item.map((product, idx) => (
           <l.Items key={`${idx} + ${product}`}>

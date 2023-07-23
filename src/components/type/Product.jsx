@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { SwitchModalBookmark } from "../bookmark/SwitchModalBookmark";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
 import * as l from "../../style/Lists";
+import Modal from "../modal/Modal";
 
 export const Product = ({ tabs }) => {
   const [count, setCount] = useState(2);
@@ -124,38 +124,11 @@ export const Product = ({ tabs }) => {
 
   return (
     <l.ItemListsMain>
-      {isOpen ? (
-        <l.ModalContainer onClick={() => handleOpenModal(modalData)}>
-          <l.ModalBackdrop>
-            <l.ModalView onClick={(e) => e.stopPropagation()}>
-              <l.ModalImg
-                backgroundImg={
-                  modalData.brand_image_url
-                    ? modalData.brand_image_url
-                    : modalData.image_url
-                }
-              >
-                <l.ModalTop>
-                  <l.ExitBtn onClick={() => handleOpenModal(modalData)} />
-                </l.ModalTop>
-                <l.ModalBottom>
-                  <SwitchModalBookmark product={modalData} />
-                  <l.ModalItemTitle>
-                    {modalData.type === "Brand" ? modalData.brand_name : null}
-                    {modalData.type === "Category"
-                      ? `# ${modalData.title}`
-                      : null}
-                    {(modalData.type === "Product") |
-                    (modalData.type === "Exhibition")
-                      ? modalData.title
-                      : null}
-                  </l.ModalItemTitle>
-                </l.ModalBottom>
-              </l.ModalImg>
-            </l.ModalView>
-          </l.ModalBackdrop>
-        </l.ModalContainer>
-      ) : null}
+      <Modal
+        isOpen={isOpen}
+        modalData={modalData}
+        handleOpenModal={handleOpenModal}
+      />
       <l.ItemContainerB>
         {filteredItem?.map((product, idx) => (
           <l.Items key={`${idx} + ${product}`}>
