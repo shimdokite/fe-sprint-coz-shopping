@@ -3,36 +3,15 @@ import { useSelector } from "react-redux";
 import { SwitchBookmark } from "../bookmark/SwitchBookmark";
 import * as l from "../../style/Lists";
 import Modal from "../modal/Modal";
+import useModal from "../../hooks/useModal";
 
 export const Product = ({ tabs }) => {
   const [count, setCount] = useState(2);
   const countRef = useRef(count);
-
   const item = useSelector((state) => state.productsReducer?.products);
-
   const [sliceItem, setSliceItem] = useState(item?.slice(0, count * 10));
   const [filteredItem, setFilterdItem] = useState(sliceItem);
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalData, setModalData] = useState();
-
-  const handleOpenModal = (product) => {
-    setIsOpen(!isOpen);
-    setModalData(product);
-  };
-
-  useEffect(() => {
-    // 모달이 열릴 때 body에 스크롤 방지 스타일을 추가
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    // 컴포넌트가 언마운트될 때 스타일을 원래대로 복구
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
+  const { isOpen, modalData, setModalData, handleOpenModal } = useModal();
 
   /**
    * item > 100개를 기준으로
