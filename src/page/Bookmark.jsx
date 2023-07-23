@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import * as p from "../style/Page";
 
 import all from "../assets/all.png";
 import product from "../assets/product.png";
@@ -45,66 +45,26 @@ export const Bookmark = () => {
 
   return (
     <>
-      <TypeContainer>
+      <p.TypeContainer>
         {typeItem.map((cur, idx) => (
-          <Typefilter key={`${cur} + ${idx}`}>
-            <TypeFilterImg
+          <p.Typefilter key={`${cur} + ${idx}`}>
+            <p.TypeFilterImg
               src={cur.img}
               alt={cur.type}
               onClick={() => handleChagneTab(cur.type)}
             />
-            <TypefilterTitle
+            <p.TypefilterTitle
               active={tabs === cur.type}
               onClick={() => handleChagneTab(cur.type)}
             >
               {cur.name}
-            </TypefilterTitle>
-          </Typefilter>
+            </p.TypefilterTitle>
+          </p.Typefilter>
         ))}
-      </TypeContainer>
+      </p.TypeContainer>
       <BookmarkList tabs={tabs} />
     </>
   );
 };
-
-const TypeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 36px;
-`;
-
-const Typefilter = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  /* height: 500px; */
-`;
-
-const TypeFilterImg = styled.img`
-  cursor: pointer;
-  width: 82px;
-  height: 82px;
-  border-radius: 50%;
-`;
-
-const TypefilterTitle = styled.div`
-  cursor: pointer;
-  margin-top: 10px;
-  color: ${(props) => (props.active ? "#412DD4" : "black")};
-  font-weight: ${(props) => (props.active ? "700" : "none")};
-  position: relative;
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 100%;
-    height: ${(props) => (props.active ? "3px" : "0")};
-    background-color: ${(props) => (props.active ? "#412DD4" : "transparent")};
-  }
-`;
 
 export default Bookmark;
